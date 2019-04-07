@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="PictochatUI">
+<head>
+    <meta charset="UTF-8">
+    <title>Pictochat</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Materialize -->
+    <link href="css/materialize.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/materialize.js"></script>
+    <!-- AngularJS -->
+    <script src="js/angular.js"></script>
+    <script src="js/angular-route.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!--Custom-->
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
+          rel="stylesheet"/>
+
+
+</head>
+<body>
+<center><h2>Pictochat</h2></center>
+<ng-view>
+</ng-view>
+<script type="text/javascript" src="appjs/main.js"></script>
+<script type="text/javascript" src="appjs/home.js"></script>
+<script type="text/javascript" src="appjs/user.js"></script>
+<script type="text/javascript" src="appjs/parts.js"></script>
+<script type="text/javascript" src="appjs/partdetails.js"></script>
+<script type="text/javascript" src="appjs/newgroup.js"></script>
+<script type="text/javascript" src="appjs/reaction.js"></script>
+
+<script type="text/javascript" src="appjs/chat.js"></script>
+<script>
+    function clearInput() {
+        document.getElementById("msgInput").value = '';
+    }
+</script>
+
+
+</body>
+</html>

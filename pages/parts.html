@@ -1,0 +1,22 @@
+<div ng-cloak style="align-content: center">
+        <table class="center stripe">
+        <thead>
+        <tr>
+            <th>Detalle</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="part in partsCtrl.chatList">
+                <td><a class="waves-effect  blue lighten-1 btn-small" ng-click="partsCtrl.partDetails(part.pid)">Ver</a></td>
+                <td>{{part.pname}}</td>
+                <td>{{part.pprice | currency}}</td>
+            </tr>
+        </tbody>
+        </table>
+        <p></p>
+        <center>
+            <a class="waves-effect  red lighten-1 btn-small" ng-click="partsCtrl.addPart()">Añadir</a>
+        </center>
+</div>

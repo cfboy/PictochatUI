@@ -1,0 +1,94 @@
+<div class="container">
+    <div ng-cloak style="align-content: center">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <a class="blue-grey-text" href="#/home"><i class="fa fa-2x fa-chevron-left"
+                                                                   aria-hidden="true"></i></a>
+                        <h3>{{chatCtrl.chatDetails.chat_name}}</h3>
+                        <div class="messaging">
+                            <div class="inbox_msg">
+                                <div class="mesgs">
+                                    <div class="msg_history">
+                                        <div ng-repeat="m in chatCtrl.messageList">
+
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <!-- Card Title is the person who write the message -->
+                                                    <span class="card-title">{{m.author}}</span>
+                                                    <!-- Here comes the message text -->
+                                                    <p>
+                                                        {{m.text}}
+                                                    </p>
+                                                </div>
+                                                <div class="card-action">
+                                                    <a class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                            class="material-icons">thumb_up
+                                                    </i></a>
+
+                                                    <span ng-bind="m.like">
+                                                    </span>
+                                                    <a class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                            class="material-icons">thumb_down
+                                                    </i></a>
+                                                    <span ng-bind="m.nolike">
+                                                    </span>
+                                                    <a class="waves-effect waves-light"
+                                                       ng-click="chatCtrl.usersReactions(m.id)">
+                                                        Ver Mas..
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="type_msg">
+                                        <div class="input_msg_write">
+                                            <input id="msgInput" type="text" class="write_msg"
+                                                   placeholder="Type a message" required="required"
+                                                   ng-model="chatCtrl.msgNewText"/>
+                                            <button class="msg_send_btn" type="button"
+                                                    ng-click="chatCtrl.postMsg()"
+                                                    onclick="clearInput()"><i class="fa fa-paper-plane-o"
+                                                                              aria-hidden="true"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="inbox_people">
+                                    <div class="headind_srch">
+                                        <div class="recent_heading">
+                                            <h4>Users</h4>
+                                        </div>
+                                    </div>
+                                    <div class="inbox_chat">
+                                        <div ng-repeat="user in chatCtrl.usersInChat">
+                                            <a class="waves-effect lighten-1" ng-click="chatCtrl.loadUserInfo(user.id)"
+                                               style="width: 100%">
+                                                <div class="chat_list">
+                                                    <div class="chat_people">
+                                                        <div class="chat_img"><img
+                                                                src="https://ptetutorials.com/images/user-profile.png"
+                                                                alt="sunil">
+                                                        </div>
+                                                        <div class="chat_ib">
+                                                            <h5>{{user.name}} {{user.lastName}}<span
+                                                                    class="chat_date">Dec 25</span></h5>
+                                                            <p>{{user.isAdmin ? 'Admin' : ''}}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

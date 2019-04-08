@@ -23,11 +23,11 @@
             templateUrl: 'pages/newgroup.html',
             controller: 'NewGroupController',
             controllerAs: 'newGroupCtrl'
-        }).when('/reactions/post/:pid', {
+        }).when('/post/reactions/:pid', {
             templateUrl: 'pages/usersReactions.html',
             controller: 'ReactionController',
             controllerAs: 'reactionCrtl'
-        }).when('/user/:uid/contacts', {
+        }).when('/user/contacts/:uid', {
             templateUrl: 'pages/contacts.html',
             controller: 'ContactsController',
             controllerAs : 'contactCtrl'

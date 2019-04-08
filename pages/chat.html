@@ -11,19 +11,19 @@
                             <div class="inbox_msg">
                                 <div class="mesgs">
                                     <div class="msg_history">
-                                        <div ng-repeat="m in chatCtrl.messageList">
+                                        <div ng-repeat="m in chatCtrl.postList">
 
                                             <div class="card">
                                                 <div class="card-content">
                                                     <!-- Card Title is the person who write the message -->
-                                                    <span class="card-title">{{m.author}}</span>
+                                                    <span class="card-title">{{m.post_id}}</span>
                                                     <!-- Here comes the message text -->
                                                     <img src="https://via.placeholder.com/150" alt="">
                                                     <p>
-                                                        {{m.postReply}}
+                                                        {{m.post_date}}
                                                     </p>
                                                     <p>
-                                                        {{m.text}}
+                                                        {{m.post_msg}}
                                                     </p>
                                                 </div>
                                                 <div class="card-action">
@@ -31,7 +31,7 @@
                                                     <a ng-click="chatCtrl.likeadd(m)"
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_up </i></a>
-                                                    <a ng-bind="m.like" ng-click="chatCtrl.usersReactions(m.id)" style="cursor: pointer">
+                                                    <a ng-bind="m.like" ng-click="chatCtrl.usersReactions(m.post_id)" style="cursor: pointer">
                                                         {{m.like}}
                                                     </a>
 
@@ -40,7 +40,7 @@
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_down </i>
                                                     </a>
-                                                    <a ng-bind="m.nolike" ng-click="chatCtrl.usersReactions(m.id)" style="cursor: pointer">
+                                                    <a ng-bind="m.nolike" ng-click="chatCtrl.usersReactions(m.post_id)" style="cursor: pointer">
                                                         {{m.nolike}}
                                                     </a>
 
@@ -114,7 +114,7 @@
                                     </div>
                                     <div class="inbox_chat">
                                         <div ng-repeat="user in chatCtrl.usersInChat">
-                                            <a class="waves-effect lighten-1" ng-click="chatCtrl.loadUserInfo(user.id)"
+                                            <a class="waves-effect lighten-1" ng-click="chatCtrl.loadUserInfo(user.user_id)"
                                                style="width: 100%">
                                                 <div class="chat_list">
                                                     <div class="chat_people">
@@ -123,9 +123,9 @@
                                                                 alt="sunil">
                                                         </div>
                                                         <div class="chat_ib">
-                                                            <h5>{{user.name}} {{user.lastName}}<span
+                                                            <h5>{{user.first_name}} {{user.last_name}}<span
                                                                     class="chat_date">Dec 25</span></h5>
-                                                            <p>{{user.isAdmin ? 'Admin' : ''}}</p>
+                                                            <!--<p>{{user.isAdmin ? 'Admin' : ''}}</p>-->
                                                         </div>
                                                     </div>
                                                 </div>

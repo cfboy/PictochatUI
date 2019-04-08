@@ -20,7 +20,7 @@
                 </div>
             </div>
             <div ng-repeat="chat in homeCtrl.chatList">
-                <a class="waves-effect lighten-1" ng-click="homeCtrl.loadChat(chat.id)" style="width: 100%">
+                <a class="waves-effect lighten-1" ng-click="homeCtrl.loadChat(chat.chat_id)" style="width: 100%">
 
                     <div class="chat_list">
                         <div class="chat_people">
@@ -29,7 +29,7 @@
                                     alt="sunil">
                             </div>
                             <div class="chat_ib">
-                                <h5> {{chat.name}} <span class="chat_date">Dec 25</span></h5>
+                                <h5> {{chat.chat_name}} <span class="chat_date">Dec 25</span></h5>
                                 <i class="float-right fa fa-2x fa-chevron-right" style="color: #03a9f4"
                                    aria-hidden="true"></i>
                             </div>

@@ -7,9 +7,17 @@
                         <span class="card-title">User Information</span>
                         <table>
                             <tbody>
-                            <tr ng-repeat="uInstance in userCtrl.userList">
+                            <tr>
                                 <th>Name:</th>
-                                <th>{{uInstance.name}} {{uInstance.lastName}}</th>
+                                <th>{{userCtrl.userDetails.first_name}} {{userCtrl.userDetails.last_name}}</th>
+                            <tr>
+                                <th>email:</th>
+                                <th>{{userCtrl.userDetails.first_name}}</th>
+                            </tr>
+                            <tr>
+                                <th>Phone:</th>
+                                <th>{{userCtrl.userDetails.phone}}</th>
+                            </tr>
                             </tr>
                             </tbody>
                         </table>

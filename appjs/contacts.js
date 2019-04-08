@@ -12,7 +12,7 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
 
         this.loadContacts = function () {
 
-            var reqURL = "http://localhost:5000/Pictochat/user/" + this.userId + "/contactlist";
+            var reqURL = "http://localhost:5000/Pictochat/contacts/user/1";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -24,7 +24,7 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */
-                    thisCtrl.contacts = response.data.AllUsersInCOntactList;
+                    thisCtrl.contacts = response.data.UserContacts;
                     console.log(thisCtrl.contacts);
                 },
                 function (response) {
@@ -45,7 +45,7 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
                     }
                 });
 
-            $log.error("Message Loaded: ", JSON.stringify(thisCtrl.messageList));
+            $log.debug("Contact list Loaded: ", JSON.stringify(thisCtrl.contacts));
         };
 
         this.addContact = function () {

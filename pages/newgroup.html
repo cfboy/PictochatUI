@@ -23,11 +23,13 @@
                         </table>
                     </div>
                     <div class="card-action">
-                        <a class="waves-effect  grey btn-small" href="#/home"><i class="fa fa-chevron-left"
-                                    aria-hidden="true"></i> Exit</a>
+                        <button class="chats waves-effect grey btn-small"
+                                ng-click="newGroupCtrl.showChats()"><i class="fa fa-chevron-left"
+                                                                       aria-hidden="true"></i> Chats
+                        </button>
 
                         <a class="waves-effect blue-grey lighten-1 btn-small float-right"
-                           ng-click="newGroupCtrl.savePart()">Create</a>
+                           ng-click="newGroupCtrl.saveGroup()">Create</a>
                     </div>
                 </div>
             </div>

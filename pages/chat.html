@@ -6,7 +6,7 @@
                     <div class="card-content">
                         <a class="blue-grey-text" href="#/home"><i class="fa fa-2x fa-chevron-left"
                                                                    aria-hidden="true"></i></a>
-                        <h3>{{chatCtrl.chatDetails.chat_name}}</h3>
+                        <h3>{{chatCtrl.chatname}}</h3>
                         <div class="messaging">
                             <div class="inbox_msg">
                                 <div class="mesgs">
@@ -18,40 +18,92 @@
                                                     <!-- Card Title is the person who write the message -->
                                                     <span class="card-title">{{m.author}}</span>
                                                     <!-- Here comes the message text -->
+                                                    <img src="https://via.placeholder.com/150" alt="">
+                                                    <p>
+                                                        {{m.postReply}}
+                                                    </p>
                                                     <p>
                                                         {{m.text}}
                                                     </p>
                                                 </div>
                                                 <div class="card-action">
-                                                    <a class="btn-floating btn-small waves-effect waves-light blue"><i
-                                                            class="material-icons">thumb_up
-                                                    </i></a>
-
-                                                    <span ng-bind="m.like">
-                                                    </span>
-                                                    <a class="btn-floating btn-small waves-effect waves-light blue"><i
-                                                            class="material-icons">thumb_down
-                                                    </i></a>
-                                                    <span ng-bind="m.nolike">
-                                                    </span>
-                                                    <a class="waves-effect waves-light"
-                                                       ng-click="chatCtrl.usersReactions(m.id)">
-                                                        Ver Mas..
+                                                    <!--this is like-->
+                                                    <a ng-click="chatCtrl.likeadd(m)"
+                                                       class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                            class="material-icons">thumb_up </i></a>
+                                                    <a ng-bind="m.like" ng-click="chatCtrl.usersReactions(m.id)" style="cursor: pointer">
+                                                        {{m.like}}
                                                     </a>
+
+                                                    <!--this is dislike-->
+                                                    <a ng-click="chatCtrl.dislikeadd(m)"
+                                                       class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                            class="material-icons">thumb_down </i>
+                                                    </a>
+                                                    <a ng-bind="m.nolike" ng-click="chatCtrl.usersReactions(m.id)" style="cursor: pointer">
+                                                        {{m.nolike}}
+                                                    </a>
+
+                                                    <a ng-click="chatCtrl.replymsg(m)"
+                                                       class="btn-floating btn-small waves-effect grey"><i
+                                                            class="material-icons">reply </i></a>
+
+                                                    <a class="float-right">{{m.postDate}} </a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="type_msg">
-                                        <div class="input_msg_write">
-                                            <input id="msgInput" type="text" class="write_msg"
-                                                   placeholder="Type a message" required="required"
-                                                   ng-model="chatCtrl.msgNewText"/>
-                                            <button class="msg_send_btn" type="button"
-                                                    ng-click="chatCtrl.postMsg()"
-                                                    onclick="clearInput()"><i class="fa fa-paper-plane-o"
-                                                                              aria-hidden="true"></i></button>
-                                        </div>
+                                        <!--<div class="input_msg_write">-->
+                                        <!--<input id="msgInput" type="text" class="write_msg"-->
+                                        <!--placeholder="Type a message" required="required"-->
+                                        <!--ng-model="chatCtrl.msgNewText"/>-->
+                                        <!--<button class="msg_send_btn" type="button"-->
+                                        <!--ng-click="chatCtrl.postMsg()"-->
+                                        <!--onclick="clearInput()"><i class="fa fa-paper-plane-o"-->
+                                        <!--aria-hidden="true"></i></button>-->
+                                        <!--</div>-->
+                                        <form name="myForm">
+                                            <fieldset>
+                                                <div class="input_msg_write">
+                                                    <input id="msgInput" type="text" class="write_msg"
+                                                           placeholder="Type a message" required
+                                                           ng-model="chatCtrl.newText" name="userName"
+                                                           placeholder="Type a message"/>
+                                                    <button class="msg_send_btn" type="button"
+                                                            ng-click="chatCtrl.postMsg()"
+                                                            onclick="clearInput()"><i class="fa fa-paper-plane-o"
+                                                                                      aria-hidden="true"></i></button>
+                                                </div>
+
+                                                <i ng-show="myForm.userName.$error.required">*required</i>
+                                                <br>
+                                                <p>Photo</p>
+                                                <input type="file" ngf-select name="file"
+                                                        accept="image/*" ngf-max-size="2MB" required
+                                                        ngf-model-invalid="errorFile">
+
+                                                <i ng-show="myForm.file.$error.required">*required</i><br>
+                                                <i ng-show="myForm.file.$error.maxSize">File too large
+                                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                                                <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb">
+                                                <button ng-click="picFile = null" ng-show="picFile">Remove</button>
+                                                <br>
+                                                <button ng-disabled="!myForm.$valid"
+                                                        ng-click="uploadPic(picFile)">Submit
+                                                </button>
+                                                <span class="progress" ng-show="picFile.progress >= 0">
+                                                    <div style="width:{{picFile.progress}}%"
+                                                         ng-bind="picFile.progress + '%'">
+                                                    </div>
+                                                </span>
+                                                <span ng-show="picFile.result">Upload Successful</span>
+                                                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+                                            </fieldset>
+                                            <br>
+                                        </form>
+
                                     </div>
                                 </div>
                                 <div class="inbox_people">
@@ -81,14 +133,11 @@
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>

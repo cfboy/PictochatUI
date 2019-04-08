@@ -9,12 +9,14 @@
                             <tr>
                                 <th>Name</th>
                                 <th>Reaction</th>
+                                <th>Date</th>
                             </tr>
                             <tbody>
 
                             <tr ng-repeat="userReacted in reactionCrtl.userReactedList">
                                 <td>{{userReacted.name}} {{userReacted.lastName}}</td>
                                 <td>{{userReacted.reactionType}}</td>
+                                <td>{{userReacted.reactionDate}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -22,7 +24,7 @@
                     <div class="card-action">
                         <a class="waves-effect  grey btn-small" href="#/home">
                             <i class="fa fa-chevron-left"
-                               aria-hidden="true"></i> Exit</a>
+                               aria-hidden="true"></i> Back</a>
                     </div>
                 </div>
             </div>

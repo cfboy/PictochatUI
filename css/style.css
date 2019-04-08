@@ -43,6 +43,7 @@ img{ max-width:100%;}
 .chat_img {
   float: left;
   width: 11%;
+    border-radius: 50%;
 }
 .chat_ib {
   float: left;
@@ -136,4 +137,28 @@ img{ max-width:100%;}
 
 .appColor {
 
+}
+
+.thumb {
+    width: 24px;
+    height: 24px;
+    float: none;
+    position: relative;
+    top: 7px;
+}
+
+form .progress {
+    line-height: 15px;
+}
+
+.progress {
+    display: inline-block;
+    width: 100px;
+    border: 3px groove #CCC;
+}
+
+.progress div {
+    font-size: smaller;
+    background: orange;
+    width: 0;
 }

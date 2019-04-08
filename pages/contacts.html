@@ -1,0 +1,36 @@
+<div class="container">
+    <div ng-cloak style="align-content: center">
+        <div class="row">
+            <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">Contact List</span>
+                        <table>
+                            <tr>
+                                <th>Users</th>
+                            </tr>
+                            <tbody>
+                            <tr ng-repeat="c in contactCtrl.contacts">
+                                <th>{{c.contactusername}}</th>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-action">
+                        <button class=" chats waves-effect  grey btn-small"
+                                ng-click=" contactCtrl.showChats()
+                        "><i class="fa fa-chevron-left"
+                             aria-hidden="true"></i> Chats
+                        </button>
+
+                        <button class="waves-effect blue-grey lighten-1 btn-small float-right"
+                                type="submit" name="action" ng-click="contactCtrl.addContact()"> ADD CONTACT
+                            <!--i class="material-icons right">send</i>-->
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -6,7 +6,7 @@
         $routeProvider.when('/login', {
             templateUrl: 'pages/login.html',
             controller: 'LoginController',
-            controllerAs: 'logingCtrl'
+            controllerAs : 'loginCtrl'
         }).when('/home', {
             templateUrl: 'pages/home.html',
             controller: 'HomeController',
@@ -19,14 +19,6 @@
             templateUrl: 'pages/chat.html',
             controller: 'ChatController',
             controllerAs: 'chatCtrl'
-        }).when('/parts', {
-            templateUrl: 'pages/parts.html',
-            controller: 'PartsController',
-            controllerAs: 'partsCtrl'
-        }).when('/partsdetails/:pid', {
-            templateUrl: 'pages/partdetails.html',
-            controller: 'PartsDetailController',
-            controllerAs: 'partsDetailCtrl'
         }).when('/createChat', {
             templateUrl: 'pages/newgroup.html',
             controller: 'NewGroupController',
@@ -35,6 +27,10 @@
             templateUrl: 'pages/usersReactions.html',
             controller: 'ReactionController',
             controllerAs: 'reactionCrtl'
+        }).when('/user/:uid/contacts', {
+            templateUrl: 'pages/contacts.html',
+            controller: 'ContactsController',
+            controllerAs : 'contactCtrl'
         }).otherwise({
             redirectTo: '/home'
         });

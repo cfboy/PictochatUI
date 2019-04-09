@@ -12,7 +12,6 @@ angular.module('PictochatUI').controller('UserController', ['$http', '$log', '$s
         // as read from the REST API
 
         this.loadUserInfo = function () {
-            // Get the target part id from the parameter in the url
             // using the $routerParams object
             var userId = $routeParams.uid;
 
@@ -24,16 +23,13 @@ angular.module('PictochatUI').controller('UserController', ['$http', '$log', '$s
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    // assing the part details to the variable in the controller
                     thisCtrl.userDetails = response.data.UserInfo;
-                    console.log("La prueba: " + $rootScope.prueba);
                 }, //Error function
                 function (response) {
                     // This is the error function
                     // If we get here, some error occurred.
                     // Verify which was the cause and show an alert.
                     var status = response.status;
-                    //console.log("Error: " + reqURL);
                     if (status === 0) {
                         alert("No hay conexion a Internet");
                     } else if (status === 401) {

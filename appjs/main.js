@@ -27,12 +27,12 @@
             templateUrl: 'pages/usersReactions.html',
             controller: 'ReactionController',
             controllerAs: 'reactionCrtl'
-        }).when('/user/contacts/:uid', {
+        }).when('/user/:uid/contacts/', {
             templateUrl: 'pages/contacts.html',
             controller: 'ContactsController',
             controllerAs : 'contactCtrl'
         }).otherwise({
-            redirectTo: '/home'
+            redirectTo: '/login'
         });
     }]);
 })();

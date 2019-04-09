@@ -11,16 +11,14 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
         thisCtrl.ctid = "";
 
         this.loadContacts = function () {
-
-            var reqURL = "http://localhost:5000/Pictochat/contacts/user/1";
+            //TODO make this reqURL dynamic
+            alert(this.uid);
+            var reqURL = "http://localhost:5000/Pictochat/user/" + this.uid + "/contacts";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
                 // Success function
                 function (response) {
-                    console.log("data: " + JSON.stringify(response.data));
-                    // assing the part details to the variable in the controller
-
                     /*
                     * Stores the data received from python call. The jsonyfied data
                     */

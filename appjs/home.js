@@ -13,23 +13,16 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
         this.nchatname = "";
 
         this.loadHome = function(){
-            // Get the list of parts from the servers via REST API
-
             // First set up the url for the route
-            var url = "http://localhost:5000/Pictochat/chats";
+            alert(this.uid);
+            var url = "http://localhost:5000/Pictochat/chats/" + this.uid;
 
             // Now set up the $http object
             // It has two function call backs, one for success and one for error
             $http.get(url).then(// success call back
                 function (response){
                 // The is the sucess function!
-                // Copy the list of parts in the data variable
-                // into the list of parts in the controller.
-
-                    console.log("response: " + JSON.stringify(response));
-
-                    thisCtrl.chatList = response.data.Chat;
-                    // $rootScope.prueba = "Probando";
+                    thisCtrl.chatList = response.data.Chats;
             }, // error callback
             function (response){
                 // This is the error function
@@ -64,8 +57,8 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
              return $http.get(url)
         };
 
-        this.loadChat = function (chatId) {
-            $location.url('/chat/' + chatId);
+        this.loadChat = function (cid) {
+            $location.url('/chat/' + cid);
         };
 
         this.addGroup = function () {
@@ -73,7 +66,7 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
         };
 
         this.contactList = function (userId) {
-            $location.path('/user/contacts/' + userId)
+            $location.path('/user/'+ userId +'/contacts')
         };
 
         this.loadHome();

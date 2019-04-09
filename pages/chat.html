@@ -6,7 +6,7 @@
                     <div class="card-content">
                         <a class="blue-grey-text" href="#/home"><i class="fa fa-2x fa-chevron-left"
                                                                    aria-hidden="true"></i></a>
-                        <h3>{{chatCtrl.chatname}}</h3>
+                        <h3 class="center">{{chatCtrl.chatDetails.chat_name}}</h3>
                         <div class="messaging">
                             <div class="inbox_msg">
                                 <div class="mesgs">
@@ -16,10 +16,12 @@
                                             <div class="card">
                                                 <div class="card-content">
                                                     <!-- Card Title is the person who write the message -->
-                                                    <span class="card-title">{{m.post_id}}</span>
                                                     <!-- Here comes the message text -->
-                                                    <img src="https://via.placeholder.com/150" alt="">
-                                                    <p>
+                                                    <img id="{{m.media_id}}" src="http://127.0.0.1:5000{{m.location}}"
+                                                         alt="" style="width: 50%">
+                                                    <span class="card-title">{{m.user_post}}</span>
+
+                                                    <p class="float-right">
                                                         {{m.post_date}}
                                                     </p>
                                                     <p>
@@ -31,8 +33,9 @@
                                                     <a ng-click="chatCtrl.likeadd(m)"
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_up </i></a>
-                                                    <a ng-bind="m.like" ng-click="chatCtrl.usersReactions(m.post_id)" style="cursor: pointer">
-                                                        {{m.like}}
+                                                    <a ng-bind="m.likes" ng-click="chatCtrl.usersReactions(m.post_id)"
+                                                       style="cursor: pointer">
+                                                        {{m.likes}}
                                                     </a>
 
                                                     <!--this is dislike-->
@@ -40,15 +43,21 @@
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_down </i>
                                                     </a>
-                                                    <a ng-bind="m.nolike" ng-click="chatCtrl.usersReactions(m.post_id)" style="cursor: pointer">
-                                                        {{m.nolike}}
+                                                    <a ng-bind="m.dislikes" ng-click="chatCtrl.usersReactions(m.post_id)"
+                                                       style="cursor: pointer">
+                                                        {{m.dislikes}}
                                                     </a>
 
                                                     <a ng-click="chatCtrl.replymsg(m)"
                                                        class="btn-floating btn-small waves-effect grey"><i
                                                             class="material-icons">reply </i></a>
-
-                                                    <a class="float-right">{{m.postDate}} </a>
+                                                </div>
+                                                <div class="card-action">
+                                                    <h6>{{m.first_name}} {{m.last_name}}<span
+                                                            class="chat_date">Dec 25</span></h6>
+                                                    <p>
+                                                        {{m.post_msg}}
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -80,8 +89,8 @@
                                                 <br>
                                                 <p>Photo</p>
                                                 <input type="file" ngf-select name="file"
-                                                        accept="image/*" ngf-max-size="2MB" required
-                                                        ngf-model-invalid="errorFile">
+                                                       accept="image/*" ngf-max-size="2MB" required
+                                                       ngf-model-invalid="errorFile">
 
                                                 <i ng-show="myForm.file.$error.required">*required</i><br>
                                                 <i ng-show="myForm.file.$error.maxSize">File too large
@@ -114,7 +123,8 @@
                                     </div>
                                     <div class="inbox_chat">
                                         <div ng-repeat="user in chatCtrl.usersInChat">
-                                            <a class="waves-effect lighten-1" ng-click="chatCtrl.loadUserInfo(user.user_id)"
+                                            <a class="waves-effect lighten-1"
+                                               ng-click="chatCtrl.loadUserInfo(user.user_id)"
                                                style="width: 100%">
                                                 <div class="chat_list">
                                                     <div class="chat_people">
@@ -123,8 +133,7 @@
                                                                 alt="sunil">
                                                         </div>
                                                         <div class="chat_ib">
-                                                            <h5>{{user.first_name}} {{user.last_name}}<span
-                                                                    class="chat_date">Dec 25</span></h5>
+                                                            <h5>{{user.first_name}} {{user.last_name}}</h5>
                                                             <!--<p>{{user.isAdmin ? 'Admin' : ''}}</p>-->
                                                         </div>
                                                     </div>

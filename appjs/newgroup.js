@@ -11,7 +11,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
 
          this.loadUsers = function () {
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Pictochat/users";
+            var reqURL = "http://localhost:5000/Pictochat/users/all";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(

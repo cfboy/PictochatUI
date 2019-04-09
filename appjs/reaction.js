@@ -38,13 +38,13 @@ angular.module('PictochatUI').controller('ReactionController', ['$http', '$log',
                     var status = response.status;
                     //console.log("Error: " + reqURL);
                     //alert("Cristo");
-                    if (status == 0) {
+                    if (status === 0) {
                         alert("No hay conexion a Internet");
-                    } else if (status == 401) {
+                    } else if (status === 401) {
                         alert("Su sesion expiro. Conectese de nuevo.");
-                    } else if (status == 403) {
+                    } else if (status === 403) {
                         alert("No esta autorizado a usar el sistema.");
-                    } else if (status == 404) {
+                    } else if (status === 404) {
                         alert("No se encontro la informacion solicitada.");
                     } else {
                         alert("Error interno del sistema.");

@@ -14,7 +14,7 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
 
         this.loadHome = function(){
             // First set up the url for the route
-            alert(this.uid);
+            // alert(this.uid);
             var url = "http://localhost:5000/Pictochat/chats/" + this.uid;
 
             // Now set up the $http object

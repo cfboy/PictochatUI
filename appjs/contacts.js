@@ -12,7 +12,7 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
 
         this.loadContacts = function () {
             //TODO make this reqURL dynamic
-            alert(this.uid);
+            // alert(this.uid);
             var reqURL = "http://localhost:5000/Pictochat/user/" + this.uid + "/contacts";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API

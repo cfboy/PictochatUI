@@ -15,7 +15,7 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                 function (response) {
                     // The is the sucess function!
                     this.user = response.data.User;
-                    alert(this.user.user_id);
+                    // alert(this.user.user_id);
                     mem.setItem('username', user['Username']);
                     mem.setItem('uid', this.user.user_id);
                     $location.path('/home');

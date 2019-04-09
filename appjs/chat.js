@@ -13,7 +13,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
         this.loadChat = function () {
             var chatId = $routeParams.cid;
-            alert(chatId);
+            // alert(chatId);
              var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API

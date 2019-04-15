@@ -11,21 +11,21 @@
                             <div class="inbox_msg">
                                 <div class="mesgs">
                                     <div class="msg_history">
-                                        <div ng-repeat="m in chatCtrl.postList">
+                                        <div ng-repeat="m in chatCtrl.postList" >
 
                                             <div class="card">
                                                 <div class="card-content">
                                                     <!-- Card Title is the person who write the message -->
                                                     <!-- Here comes the message text -->
-                                                    <img id="{{m.media_id}}" src="http://127.0.0.1:5000{{m.location}}"
+                                                    <img id="{{m.mediaId}}" src="http://127.0.0.1:5000{{m.mediaLocation}}"
                                                          alt="" style="width: 50%">
-                                                    <span class="card-title">{{m.user_post}}</span>
+                                                    <span class="card-title">{{m.username}}</span>
 
                                                     <p class="float-right">
-                                                        {{m.post_date}}
+                                                        {{m.postDate}}
                                                     </p>
                                                     <p>
-                                                        {{m.post_msg}}
+                                                        {{m.postMsg}}
                                                     </p>
                                                 </div>
                                                 <div class="card-action">
@@ -33,7 +33,7 @@
                                                     <a ng-click="chatCtrl.likeadd(m)"
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_up </i></a>
-                                                    <a ng-bind="m.likes" ng-click="chatCtrl.usersReactions(m.post_id)"
+                                                    <a ng-bind="m.likes" ng-click="chatCtrl.usersReactions(m.postId)"
                                                        style="cursor: pointer">
                                                         {{m.likes}}
                                                     </a>
@@ -43,7 +43,7 @@
                                                        class="btn-floating btn-small waves-effect waves-light blue"><i
                                                             class="material-icons">thumb_down </i>
                                                     </a>
-                                                    <a ng-bind="m.dislikes" ng-click="chatCtrl.usersReactions(m.post_id)"
+                                                    <a ng-bind="m.dislikes" ng-click="chatCtrl.usersReactions(m.postId)"
                                                        style="cursor: pointer">
                                                         {{m.dislikes}}
                                                     </a>
@@ -56,7 +56,7 @@
                                                     <h6>{{m.first_name}} {{m.last_name}}<span
                                                             class="chat_date">Dec 25</span></h6>
                                                     <p>
-                                                        {{m.post_msg}}
+                                                        {{m.postMsg}}
                                                     </p>
                                                 </div>
                                             </div>

@@ -36,7 +36,7 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                 'email': email,
                 'password': password,
                 'username': username
-            }
+            };
             // Now issue the http request to the rest API
             $http.post(reqURL, data).then(
                 // Success function

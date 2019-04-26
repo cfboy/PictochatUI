@@ -46,7 +46,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             );
             // Get the messages from the server through the rest api
 
-            $log.debug("Posts Loaded: ", JSON.stringify(thisCtrl.chatDetails));
+            $log.debug("Chat Loaded: ", JSON.stringify(thisCtrl.chatDetails));
 
 
             // Now create the url with the route to talk with the rest API

@@ -17,14 +17,19 @@
 
     <!--Custom-->
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
           rel="stylesheet"/>
 
-    <script src="/js/ng-file-upload-bower-12.2.13/ng-file-upload-shim.min.js"></script>
-    <script src="/js/ng-file-upload-bower-12.2.13/ng-file-upload.min.js"></script>
+    <!--<script src="/bower_components/ng-file-upload/ng-file-upload-shim.js"></script> &lt;!&ndash; for no html5 browsers support &ndash;&gt;-->
+    <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+
 </head>
 <body>
 <center><h1>Pictochat</h1></center>
@@ -45,6 +50,12 @@
     function clearInput() {
         document.getElementById("msgInput").value = '';
     }
+
+    $(document).ready(function () {
+        $('#action_menu_btn').click(function () {
+            $('.action_menu').toggle();
+        });
+    });
 </script>
 
 

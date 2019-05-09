@@ -1,6 +1,6 @@
 (function () {
 
-    var app = angular.module('PictochatUI', ['ngRoute']);
+    var app = angular.module('PictochatUI', ['ngRoute', 'ngFileUpload']);
 
     app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider.when('/login', {

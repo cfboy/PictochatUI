@@ -1,8 +1,8 @@
 /**
  * Created by cfboy on 4/6/19.
  */
-angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', '$routeParams',
-    function ($http, $log, $scope, $rootScope, $location, $routeParams) {
+angular.module('PictochatUI', ['ngFileUpload']).controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', 'Upload', '$routeParams',
+    function ($http, $log, $scope, $rootScope, Upload, $location, $routeParams) {
         var thisCtrl = this;
         this.postList = [];
         this.usersInChat = [];
@@ -11,10 +11,28 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
         $rootScope.prueba = "";
 
+        $scope.uploadPic = function (file) {
+            file.upload = Upload.upload({
+                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+                data: {username: $scope.username, file: file},
+            });
+
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                // Math.min is to fix IE which reports 200% sometimes
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            });
+        }
         this.loadChat = function () {
             var chatId = $routeParams.cid;
             // alert(chatId);
-             var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId;
+            var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(

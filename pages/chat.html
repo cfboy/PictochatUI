@@ -1,152 +1,155 @@
-<div class="container">
-    <div ng-cloak style="align-content: center">
-        <div class="row">
-            <div class="col s12 m6">
-                <div class="card">
-                    <div class="card-content">
-                        <a class="blue-grey-text" href="#/home"><i class="fa fa-2x fa-chevron-left"
-                                                                   aria-hidden="true"></i></a>
-                        <h3 class="center">{{chatCtrl.chatDetails.chat_name}}</h3>
-                        <div class="messaging">
-                            <div class="inbox_msg">
-                                <div class="mesgs">
-                                    <div class="msg_history">
-                                        <div ng-repeat="m in chatCtrl.postList">
+<div class="container-fluid h-100">
+    <div class="row justify-content-center h-100">
+        <div class="col-md-4 col-xl-3 chat">
+            <div class="card mb-sm-3 mb-md-0 contacts_card">
+                <div class="card-header">
+                    <!--<div class="input-group">-->
+                    <!--<input type="text" placeholder="Search..." name="" class="form-control search">-->
+                    <!--<div class="input-group-prepend">-->
+                    <!--<span class="input-group-text search_btn"><i class="fa fa-search"></i></span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <h3>Chat Members</h3>
+                </div>
+                <div class="card-body contacts_body">
+                    <ui class="contacts" ng-repeat="user in chatCtrl.usersInChat">
+                        <li>
+                            <div class="d-flex bd-highlight">
+                                <div class="img_cont">
+                                    <img src="https://ptetutorials.com/images/user-profile.png"
+                                         class="rounded-circle user_img">
+                                    <span class="online_icon"></span>
+                                </div>
+                                <div class="user_info">
+                                    <span>{{user.first_name}}</span>
+                                    <p>{{user.first_name}} is online</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ui>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+        <div class="col-md-8 col-xl-9 chat">
+            <div class="card">
+                <div class="card-header msg_head">
+                    <div class="d-flex bd-highlight">
+                        <div class="user_info">
+                            <span>{{chatCtrl.chatDetails.chat_name}}</span>
+                            <p></p>
+                        </div>
+                    </div>
+                    <span id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
+                    <div class="action_menu">
+                        <ul>
+                            <li><i class="fa fa-user-circle"></i> View profile</li>
+                            <li><i class="fa fa-users"></i> Add to close friends</li>
+                            <li><i class="fa fa-plus"></i> Add to group</li>
+                            <li><i class="fa fa-ban"></i> Block</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body msg_card_body">
+                    <div ng-repeat="m in chatCtrl.postList">
+                        <div class="d-flex justify-content-start mb-4">
+                            <div class="row">
+                                <div class="col-md-1 img_cont_msg">
+                                    <img src="https://ptetutorials.com/images/user-profile.png"
+                                         class="rounded-circle user_img_msg">
+                                    <span class="msg_username">{{m.username}}</span>
 
-                                            <div class="card">
-                                                <div class="card-content">
-                                                    <!-- Card Title is the person who write the message -->
-                                                    <!-- Here comes the message text -->
-                                                    <img id="{{m.mediaId}}"
-                                                         src="http://127.0.0.1:5000{{m.mediaLocation}}"
-                                                         alt="" style="width: 50%">
-                                                    <span class="card-title">{{m.username}}</span>
+                                </div>
 
-                                                    <p class="float-right">
-                                                        {{m.postDate}}
-                                                    </p>
-                                                    <p>
-                                                        {{m.postMsg}}
-                                                    </p>
-                                                </div>
-                                                <div class="card-action">
-                                                    <!--this is like-->
-                                                    <a ng-click="chatCtrl.likeadd(m)"
-                                                       class="btn-floating btn-small waves-effect waves-light blue"><i
-                                                            class="material-icons">thumb_up </i></a>
-                                                    <a ng-bind="m.likes" ng-click="chatCtrl.usersReactions(m.postId)"
-                                                       style="cursor: pointer">
-                                                        {{m.likes}}
-                                                    </a>
-
-                                                    <!--this is dislike-->
-                                                    <a ng-click="chatCtrl.dislikeadd(m)"
-                                                       class="btn-floating btn-small waves-effect waves-light blue"><i
-                                                            class="material-icons">thumb_down </i>
-                                                    </a>
-                                                    <a ng-bind="m.dislikes" ng-click="chatCtrl.usersReactions(m.postId)"
-                                                       style="cursor: pointer">
-                                                        {{m.dislikes}}
-                                                    </a>
-
-                                                    <a ng-click="chatCtrl.replymsg(m)"
-                                                       class="btn-floating btn-small waves-effect grey"><i
-                                                            class="material-icons">reply </i></a>
-                                                </div>
-                                                <div ng-repeat="r in m.replies">
-                                                    <div class="card-action">
-                                                        <h6>{{r.reply_username}} </h6> <span class="chat_date right">{{r.reply_date}}</span>
-                                                        <p>
-                                                            {{r.reply_msg}}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="col-md-6 msg_container">
+                                    <div class="center">
+                                        <img class="msg_img" src="http://127.0.0.1:5000{{m.mediaLocation}}" alt="">
                                     </div>
-                                    <div class="type_msg">
-                                        <!--<div class="input_msg_write">-->
-                                        <!--<input id="msgInput" type="text" class="write_msg"-->
-                                        <!--placeholder="Type a message" required="required"-->
-                                        <!--ng-model="chatCtrl.msgNewText"/>-->
-                                        <!--<button class="msg_send_btn" type="button"-->
-                                        <!--ng-click="chatCtrl.postMsg()"-->
-                                        <!--onclick="clearInput()"><i class="fa fa-paper-plane-o"-->
-                                        <!--aria-hidden="true"></i></button>-->
-                                        <!--</div>-->
-                                        <form name="myForm">
-                                            <fieldset>
-                                                <div class="input_msg_write">
-                                                    <input id="msgInput" type="text" class="write_msg"
-                                                           placeholder="Type a message" required
-                                                           ng-model="chatCtrl.newText" name="userName"
-                                                           placeholder="Type a message"/>
-                                                    <button class="msg_send_btn" type="button"
-                                                            ng-click="chatCtrl.postMsg()"
-                                                            onclick="clearInput()"><i class="fa fa-paper-plane-o"
-                                                                                      aria-hidden="true"></i></button>
-                                                </div>
+                                    <p>{{m.postMsg}}</p>
+                                    <div class="card-action">
+                                        <!--this is like-->
+                                        <a ng-click="chatCtrl.likeadd(m)"
+                                           class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                class="material-icons">thumb_up </i></a>
+                                        <a ng-bind="m.likes" ng-click="chatCtrl.usersReactions(m.postId)"
+                                           style="cursor: pointer">
+                                            {{m.likes}}
+                                        </a>
 
-                                                <i ng-show="myForm.userName.$error.required">*required</i>
-                                                <br>
-                                                <p>Photo</p>
-                                                <input type="file" ngf-select name="file"
-                                                       accept="image/*" ngf-max-size="2MB" required
-                                                       ngf-model-invalid="errorFile">
-
-                                                <i ng-show="myForm.file.$error.required">*required</i><br>
-                                                <i ng-show="myForm.file.$error.maxSize">File too large
-                                                    {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
-                                                <img ng-show="myForm.file.$valid" ngf-thumbnail="picFile" class="thumb">
-                                                <button ng-click="picFile = null" ng-show="picFile">Remove</button>
-                                                <br>
-                                                <button ng-disabled="!myForm.$valid"
-                                                        ng-click="uploadPic(picFile)">Submit
-                                                </button>
-                                                <span class="progress" ng-show="picFile.progress >= 0">
-                                                    <div style="width:{{picFile.progress}}%"
-                                                         ng-bind="picFile.progress + '%'">
-                                                    </div>
-                                                </span>
-                                                <span ng-show="picFile.result">Upload Successful</span>
-                                                <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-
-                                            </fieldset>
-                                            <br>
-                                        </form>
-
+                                        <!--this is dislike-->
+                                        <a ng-click="chatCtrl.dislikeadd(m)"
+                                           class="btn-floating btn-small waves-effect waves-light blue"><i
+                                                class="material-icons">thumb_down </i>
+                                        </a>
+                                        <a ng-bind="m.dislikes" ng-click="chatCtrl.usersReactions(m.postId)"
+                                           style="cursor: pointer">
+                                            {{m.dislikes}}
+                                        </a>
                                     </div>
                                 </div>
-                                <div class="inbox_people">
-                                    <div class="headind_srch">
-                                        <div class="recent_heading">
-                                            <h4>Users</h4>
+                                <div class="col-md-4 reply_container">
+                                    <h4>Replies</h4>
+                                    <div style="overflow: auto">
+                                        <div class="card-action" ng-repeat="r in m.replies">
+                                            <h6><strong>{{r.reply_username}} </strong></h6>
+                                            <p>
+                                                {{r.reply_msg}}
+                                            </p>
+                                            <span class="reply_date right">{{r.reply_date}}</span>
+
                                         </div>
                                     </div>
-                                    <div class="inbox_chat">
-                                        <div ng-repeat="user in chatCtrl.usersInChat">
-                                            <a class="waves-effect lighten-1"
-                                               ng-click="chatCtrl.loadUserInfo(user.user_id)"
-                                               style="width: 100%">
-                                                <div class="chat_list">
-                                                    <div class="chat_people">
-                                                        <div class="chat_img"><img
-                                                                src="https://ptetutorials.com/images/user-profile.png"
-                                                                alt="sunil">
-                                                        </div>
-                                                        <div class="chat_ib">
-                                                            <h5>{{user.first_name}} {{user.last_name}}</h5>
-                                                            <!--<p>{{user.isAdmin ? 'Admin' : ''}}</p>-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+                                    <div class="card-action" style="display: flex; padding: 30px 0 0">
+                                        <input class="input_msg_write" name=""
+                                               placeholder="Reply Post..." required/>
+                                        <a ng-click="chatCtrl.replymsg(m)"
+                                           class="btn-floating btn-small waves-effect grey"><i
+                                                class="material-icons">reply </i></a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <div class="card-footer" ng-app="fileUpload" ng-controller="ChatController">
+                    <form name="myForm">
+                        <div ng-show="myForm.file.$valid">
+                            <img ngf-thumbnail="picFile" class="img_msg">
+                        </div>
+                        <button class="btn" style="margin: 10px 0;" ng-click="picFile = null" ng-show="picFile">Remove
+                        </button>
+                        <div class="input-group">
+
+                            <div class="input-group-append">
+                                <span class="input-group-text attach_btn" type="file" ngf-select ng-model="picFile"
+                                      name="file"
+                                      accept="image/*" ngf-max-size="2MB" required
+                                      ngf-model-invalid="errorFile"><i class="fa fa-paperclip"></i>
+                                    </span>
+                            </div>
+                            <textarea class="form-control type_msg" name="userName" ng-model="username"
+                                      placeholder="Type your message..." required></textarea>
+
+                            <div class="input-group-append">
+                                <button class="input-group-text send_btn" ng-disabled="!myForm.$valid"
+                                        ng-click="uploadPic(picFile)"><i class="fa fa-location-arrow"></i></button>
+
+                            </div>
+                        </div>
+                        <i ng-show="myForm.userName.$error.required">Message required*</i>
+                        <i ng-show="myForm.file.$error.maxSize">File too large
+                            {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
+                        <span class="progress" ng-show="picFile.progress >= 0">
+        <div style="width:{{picFile.progress}}%"
+             ng-bind="picFile.progress + '%'"></div>
+                        </span>
+                        <span ng-show="picFile.result">Upload Successful</span>
+                        <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+
+                    </form>
+
                 </div>
             </div>
         </div>

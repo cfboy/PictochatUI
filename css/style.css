@@ -256,12 +256,12 @@ body, html {
 }
 
 .chat {
-    margin-top: auto;
+    /*margin-top: auto;*/
     margin-bottom: auto;
 }
 
 .card {
-    height: 550px;
+    height: 700px;
     border-radius: 15px !important;
     background-color: rgba(0, 0, 0, 0.4) !important;
 }
@@ -386,7 +386,7 @@ body, html {
 }
 
 .msg_img {
-    max-width: 90%;
+    max-width: 50%;
 }
 
 .online_icon {

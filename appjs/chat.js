@@ -1,13 +1,17 @@
 /**
  * Created by cfboy on 4/6/19.
  */
-angular.module('PictochatUI', ['ngFileUpload']).controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', 'Upload', '$routeParams',
+angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', 'Upload', '$routeParams',
     function ($http, $log, $scope, $rootScope, Upload, $location, $routeParams) {
+        var mem = sessionStorage;
+
         var thisCtrl = this;
         this.postList = [];
         this.usersInChat = [];
         this.counter = 2;
         this.newText = "";
+        this.replyText = "";
+        this.user = mem.getItem('user_id');
 
         $rootScope.prueba = "";
 
@@ -28,7 +32,7 @@ angular.module('PictochatUI', ['ngFileUpload']).controller('ChatController', ['$
                 // Math.min is to fix IE which reports 200% sometimes
                 file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
-        }
+        };
         this.loadChat = function () {
             var chatId = $routeParams.cid;
             // alert(chatId);
@@ -139,9 +143,28 @@ angular.module('PictochatUI', ['ngFileUpload']).controller('ChatController', ['$
         this.postMsg = function () {
             var msg = thisCtrl.newText;
             // Need to figure out who I am
-            var author = "Me";
             var nextId = thisCtrl.counter++;
-            thisCtrl.postList.unshift({"post_id": nextId, "post_msg": msg, "user_id": author, "like": 0, "nolike": 0});
+            thisCtrl.postList.unshift({
+                "chatId": 1,
+                "createdById": 1,
+                "dislikes": 44,
+                "likes": 44,
+                "mediaId": 1,
+                "mediaLocation": "/static/img-1-playa.png",
+                "postDate": "Thu, 28 Mar 2019 14:30:12 GMT",
+                "postId": nextId,
+                "postMsg": msg,
+                "replies": [{
+                    "reply_date": "Thu, 28 Mar 2019 14:31:20 GMT",
+                    "reply_id": 1,
+                    "reply_msg": "Test Reply",
+                    "reply_username": "Test "
+                }],
+                "username": "tester"
+            });
+            alert(thisCtrl.postList);
+            console.log("Posts List: " + thisCtrl.postList);
+
             thisCtrl.newText = "";
         };
 
@@ -155,51 +178,156 @@ angular.module('PictochatUI', ['ngFileUpload']).controller('ChatController', ['$
             $location.url('/post/reactions/' + pid);
         };
 
-        //TODO: implement
+        //insert like on post
+        this.likeAdd = function (post) {
+            var user;
+            if (post.likedBy != null) {
+                for (var i = 0; i < post.likedBy.length; i++) {
+                    user = post.likedBy[i].userid;
+                    if (this.user == user) {
+                        return
+                    }
+                }
+            }
+            // Build the data object
+            var data = {};
+            data.post_id = post['postId'];
+            data.react_type = 1;
 
-        this.replymsg = function (m) {
-            var msg = thisCtrl.newText;
-            if (msg === "")
-                return;
-            // Need to figure out who I am
-            //EEHW
-            var data = {'cid': thisCtrl.cid, 'uid': thisCtrl.uid, 'text': msg, 'reply': m['mid']};
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/like";
+            console.log("reqURL: " + reqURL);
+
+            // configuration headers for HTTP request
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                    //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+
+                }
+            };
+            $http.post(reqURL, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // tira un mensaje en un alert
+                    alert("post Liked with id: " + response.data.Post.post_id);
+                    //TODO recibir el username
+                    // if (post.likedBy != null) {
+                    //     post.likedBy.push(this.user, response.data.Post.user_id);
+                    // } else
+                    //     post.likedBy = [this.username, response.data.Post.user_id];
+                    post.likes++;
+                }, //Error function
+                function (response) {
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    //console.log("Error: " + reqURL);
+                    //alert("Cristo");
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+
             $http({
-                url: 'http://localhost:5000/SocialMessagingApp/message/post',
-                method: "PUT",
+                url: 'http://localhost:5000/Pictochat/post/like',
+                method: "POST",
                 headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify(data)
-            }).then(function (response) {
-                var mid = response.data.mid;
-                thisCtrl.messageList.unshift({
-                    "mid": mid,
-                    "text": "Reply:" + msg,
-                    "author": thisCtrl.username,
-                    "like": 0,
-                    "nolike": 0,
-                    "reply": m.text,
-                    "minfo": {'Likedby': null, 'Dislikedby': null}
-                });
-            }).catch(function (error) {
-                console.log("este es el error");
+            }).then(function () {
+                // if (post.likedBy != null) {
+                //     post.likedBy.push(this.user);
+                // } else
+                //     post.likedBy = [this.username];
+                post.likes++;
             });
-            thisCtrl.newText = "";
+        };
+        //insert dislike on post
+        this.dislikeAdd = function (post) {
+            var user;
+            if (post.dilikedBy != null) {
+                for (var i = 0; i < post.dislikedBy.length; i++) {
+                    user = post.dislikedBy[i].userid;
+                    if (this.user == user) {
+                        return
+                    }
+                }
+            }
+            var data = {'user_id': thisCtrl.uid, 'post_id': post['post_id']};
+            // alert("user_id: " + this.user);
+            //TODO: Connect with db
+            // $http({
+            //     url: 'http://localhost:5000/Pictochat/post/like/insert',
+            //     method: "PUT",
+            //     headers: {'Content-Type': 'application/json'},
+            //     data: JSON.stringify(data)
+            // }).then(function () {
+            post.dislikes++;
+            // });
+        };
+        //For load all users likes m post.
+        this.loadLikes = function (m) {
+            if (m.likedBy == null)
+                alert("No likes yet :(");
+            else {
+                var list = "User that liked the message: \n";
+                var ref = m.likedBy;
+                for (var i = 0; i < m.likedBy.length; i++)
+                    list += m.likedBy[i].username + " \n";
+                alert(list);
+            }
 
         };
-
-        this.refresh = function () {
-            var n = thisCtrl.messageList.length;
-            //$log.error
-            //console.log
-            for (var i = n; i >= 0; i--) {
-                var t = thisCtrl.messageList.pop();
-                thisCtrl.loadChat();
+        //For load all users dislikes m post.
+        this.loadDislikes = function (m) {
+            if (m.dislikedBy == null)
+                alert("No dislikes yet :)");
+            else {
+                var list = "User that disliked the message: \n";
+                var ref = m.dislikedBy;
+                for (var i = 0; i < m.dislikedBy.length; i++)
+                    list += m.dislikedBy[i].username + " \n";
+                alert(list);
             }
         };
 
-        this.search = function () {
-            $location.path('/search');
-        };
-//         //*************************************
 
+        //TODO: implement
+
+        this.replymsg = function (m) {
+
+            var msg = thisCtrl.replyText;
+            if (msg === "")
+                return;
+            var data = {'cid': thisCtrl.cid, 'uid': thisCtrl.uid, 'text': msg, 'reply': m['mid']};
+            // $http({
+            //     url: 'http://localhost:5000/SocialMessagingApp/message/post',
+            //     method: "PUT",
+            //     headers: {'Content-Type': 'application/json'},
+            //     data: JSON.stringify(data)
+            // }).then(function (response) {
+            // var mid = response.data.mid;
+            m.replies.unshift({
+                "reply_date": 'Thu, 28 Mar 2019 14:31:20 GMT',
+                "reply_id": 2,
+                "reply_msg": msg,
+                "reply_username": thisCtrl.username
+            });
+            // }).catch(function (error) {
+            //     console.log("este es el error");
+            // });
+            thisCtrl.replyText = "";
+
+        };
     }]);

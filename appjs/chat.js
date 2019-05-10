@@ -4,17 +4,22 @@
 angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', 'Upload', '$routeParams',
     function ($http, $log, $scope, $rootScope, Upload, $location, $routeParams) {
         var mem = sessionStorage;
-
         var thisCtrl = this;
+
+        //List of Posts in Chat
         this.postList = [];
+        //List of Users in Chat
         this.usersInChat = [];
-        this.counter = 2;
+        //Var for text of new post
         this.newText = "";
+        //Var for text of post reply
         this.replyText = "";
+        //TODO: Implement Session
         this.user = mem.getItem('user_id');
 
         $rootScope.prueba = "";
 
+        //TODO: Implement media upload
         $scope.uploadPic = function (file) {
             file.upload = Upload.upload({
                 url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
@@ -33,6 +38,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
         };
+        //This function load all information of Chat.
         this.loadChat = function () {
             var chatId = $routeParams.cid;
             // alert(chatId);
@@ -117,11 +123,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     thisCtrl.usersInChat = response.data.Users;
                 }, //Error function
                 function (response) {
-                    // This is the error function
-                    // If we get here, some error occurred.
-                    // Verify which was the cause and show an alert.
                     var status = response.status;
-                    //console.log("Error: " + reqURL);
                     if (status === 0) {
                         alert("No hay conexion a Internet");
                     } else if (status === 401) {
@@ -140,44 +142,61 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             $log.debug("Users Loaded: ", JSON.stringify(thisCtrl.usersInChat));
         };
 
+        //This function Insert new Post
         this.postMsg = function () {
             var msg = thisCtrl.newText;
-            // Need to figure out who I am
-            var nextId = thisCtrl.counter++;
-            thisCtrl.postList.unshift({
-                "chatId": 1,
-                "createdById": 1,
-                "dislikes": 44,
-                "likes": 44,
-                "mediaId": 1,
-                "mediaLocation": "/static/img-1-playa.png",
-                "postDate": "Thu, 28 Mar 2019 14:30:12 GMT",
-                "postId": nextId,
-                "postMsg": msg,
-                "replies": [{
-                    "reply_date": "Thu, 28 Mar 2019 14:31:20 GMT",
-                    "reply_id": 1,
-                    "reply_msg": "Test Reply",
-                    "reply_username": "Test "
-                }],
-                "username": "tester"
-            });
-            alert(thisCtrl.postList);
-            console.log("Posts List: " + thisCtrl.postList);
 
-            thisCtrl.newText = "";
+            // Build the data object
+            var data = {};
+            data.chat_id = this.chatDetails.chatId;
+            data.post_msg = this.newText;
+            //TODO: remove user_id
+            data.user_id = this.user;
+
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/new";
+            console.log("reqURL: " + reqURL);
+
+            // configuration headers for HTTP request
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+            $http.post(reqURL, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // tira un mensaje en un alert
+                    console.log("Post " + response.data.React.post_id + " Added");
+                    //TODO: Falta el dictionary completo de Post
+                    thisCtrl.postList.unshift(response.data.Post);
+                    thisCtrl.newText = "";
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
         };
-
+        //Load chat components
         this.loadChat();
-
+        //This function redirect to load user information (NO SE USA)
         this.loadUserInfo = function (uid) {
             $location.url('/user/' + uid);
         };
-
-        this.usersReactions = function (pid) {
-            $location.url('/post/reactions/' + pid);
-        };
-
         //insert like on post
         this.likeAdd = function (post) {
             var user;
@@ -193,17 +212,17 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             var data = {};
             data.post_id = post['postId'];
             data.react_type = 1;
+            //TODO: remove user_id
+            data.user_id = this.user;
 
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Pictochat/post/like";
+            var reqURL = "http://localhost:5000/Pictochat/post/react";
             console.log("reqURL: " + reqURL);
 
             // configuration headers for HTTP request
             var config = {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
-                    //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
-
                 }
             };
             $http.post(reqURL, data, config).then(
@@ -211,21 +230,18 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
                     // tira un mensaje en un alert
-                    alert("post Liked with id: " + response.data.Post.post_id);
-                    //TODO recibir el username
+                    console.log("Post " + response.data.React.post_id + " Liked");
+                    //TODO recibir el username para actualizar lista
                     // if (post.likedBy != null) {
-                    //     post.likedBy.push(this.user, response.data.Post.user_id);
+                    //     post.likedBy.push(response.data.React.user_id, response.data.React.username);
                     // } else
-                    //     post.likedBy = [this.username, response.data.Post.user_id];
+                    //     post.likedBy = [response.data.React.user_id, response.data.React.username];
                     post.likes++;
                 }, //Error function
                 function (response) {
-                    // This is the error function
-                    // If we get here, some error occurred.
-                    // Verify which was the cause and show an alert.
+
                     var status = response.status;
-                    //console.log("Error: " + reqURL);
-                    //alert("Cristo");
+
                     if (status === 0) {
                         alert("No hay conexion a Internet");
                     } else if (status === 401) {
@@ -239,24 +255,11 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     }
                 }
             );
-
-            $http({
-                url: 'http://localhost:5000/Pictochat/post/like',
-                method: "POST",
-                headers: {'Content-Type': 'application/json'},
-                data: JSON.stringify(data)
-            }).then(function () {
-                // if (post.likedBy != null) {
-                //     post.likedBy.push(this.user);
-                // } else
-                //     post.likedBy = [this.username];
-                post.likes++;
-            });
         };
         //insert dislike on post
         this.dislikeAdd = function (post) {
             var user;
-            if (post.dilikedBy != null) {
+            if (post.dislikedBy != null) {
                 for (var i = 0; i < post.dislikedBy.length; i++) {
                     user = post.dislikedBy[i].userid;
                     if (this.user == user) {
@@ -264,19 +267,56 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     }
                 }
             }
-            var data = {'user_id': thisCtrl.uid, 'post_id': post['post_id']};
-            // alert("user_id: " + this.user);
-            //TODO: Connect with db
-            // $http({
-            //     url: 'http://localhost:5000/Pictochat/post/like/insert',
-            //     method: "PUT",
-            //     headers: {'Content-Type': 'application/json'},
-            //     data: JSON.stringify(data)
-            // }).then(function () {
-            post.dislikes++;
-            // });
+            // Build the data object
+            var data = {};
+            data.post_id = post['postId'];
+            data.react_type = -1;
+            //TODO: remove user_id
+            data.user_id = this.user;
+
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/react";
+            console.log("reqURL: " + reqURL);
+
+            // configuration headers for HTTP request
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+            $http.post(reqURL, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // tira un mensaje en un alert
+                    console.log("Post " + response.data.React.post_id + " Disliked");
+
+                    //TODO recibir el username para actualizar lista
+                    // if (post.likedBy != null) {
+                    //     post.likedBy.push(response.data.React.user_id, response.data.React.username);
+                    // } else
+                    //     post.likedBy = [response.data.React.user_id, response.data.React.username];
+                    post.dislikes++;
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
         };
-        //For load all users likes m post.
+        //load all users liked m post.
         this.loadLikes = function (m) {
             if (m.likedBy == null)
                 alert("No likes yet :(");
@@ -289,7 +329,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             }
 
         };
-        //For load all users dislikes m post.
+        //load all users disliked m post.
         this.loadDislikes = function (m) {
             if (m.dislikedBy == null)
                 alert("No dislikes yet :)");
@@ -301,10 +341,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 alert(list);
             }
         };
-
-
-        //TODO: implement
-
+        //TODO: implement reply function
         this.replymsg = function (m) {
 
             var msg = thisCtrl.replyText;

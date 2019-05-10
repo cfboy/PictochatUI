@@ -4,9 +4,9 @@ angular.module('PictochatUI').controller('ContactsController', ['$http', '$log',
         var mem = sessionStorage;
         var thisCtrl = this;
         // this.contactList_id;
-        this.userId = $routeParams.uid;
+        this.userId = $routeParams.user_id;
 
-        this.uid = mem.getItem('uid');
+        this.uid = mem.getItem('user_id');
         this.contacts = [];
         thisCtrl.ctid = "";
 

@@ -25,8 +25,8 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    // mem.setItem('username', response.data.User['username']);
-                    // mem.setItem('user_id', response.data.User['user_id']);
+                    mem.setItem('username', response.data.User['username']);
+                    mem.setItem('user_id', response.data.User['user_id']);
                     $location.path('/home');
 
                     // tira un mensaje en un alert

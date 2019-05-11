@@ -54,7 +54,7 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
         };
 
         this.register = function (firstname, lastname, phone, email, password, username) {
-            var reqURL = "http://localhost:5000/SocialMessagingApp/register";
+            var reqURL = "http://localhost:5000/Pictochat/users/register";
             var data = {
                 'firstname': firstname,
                 'lastname': lastname,

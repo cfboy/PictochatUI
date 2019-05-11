@@ -130,38 +130,39 @@
                 <div class="card-footer" ng-app="fileUpload" ng-controller="ChatController">
                     <form name="myForm">
                         <div ng-show="myForm.file.$valid">
-                            <img ngf-thumbnail="picFile" class="img_msg">
+                            <img ngf-thumbnail="file" class="img_msg">
                         </div>
-                        <button class="btn" style="margin: 10px 0;" ng-click="picFile = null" ng-show="picFile">Remove
+                        <button class="btn" style="margin: 10px 0;" ng-click="file = null" ng-show="file">Remove
                         </button>
                         <div class="input-group">
 
                             <div class="input-group-append">
-                                <span class="input-group-text attach_btn" type="file" ngf-select ng-model="picFile"
+                                <span class="input-group-text attach_btn" type="file" ngf-select ng-model="file"
                                       name="file"
                                       accept="image/*" ngf-max-size="2MB" required
                                       ngf-model-invalid="errorFile"><i class="fa fa-paperclip"></i>
                                     </span>
                             </div>
-                            <textarea class="form-control type_msg" name="newText" ng-model="chatCtrl.newText"
+                            <textarea class="form-control type_msg" name="message" ng-model="message"
                                       placeholder="Type your message..." required></textarea>
 
                             <div class="input-group-append">
                                 <!--<button class="input-group-text send_btn" ng-disabled="!myForm.$valid"-->
                                 <!--ng-click="uploadPic(picFile)"><i class="fa fa-location-arrow"></i></button>-->
                                 <button class="input-group-text send_btn" ng-disabled="!myForm.$valid"
-                                        ng-click="chatCtrl.postMsg()"><i class="fa fa-location-arrow"></i></button>
+                                        ng-click="uploadPic(file)"><i class="fa fa-location-arrow"></i></button>
 
                             </div>
                         </div>
-                        <i ng-show="myForm.newText.$error.required">Message required*</i>
+                        <i ng-show="myForm.message.$error.required">Message required*</i>
                         <i ng-show="myForm.file.$error.maxSize">File too large
                             {{errorFile.size / 1000000|number:1}}MB: max 2M</i>
-                        <span class="progress" ng-show="picFile.progress >= 0">
-        <div style="width:{{picFile.progress}}%"
-             ng-bind="picFile.progress + '%'"></div>
+                        <span class="progress" ng-show="file.progress >= 0">
+                            <div style="width:{{file.progress}}%" ng-bind="file.progress + '%'">
+
+                            </div>
                         </span>
-                        <span ng-show="picFile.result">Upload Successful</span>
+                        <span ng-show="file.result">Upload Successful</span>
                         <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
 
                     </form>

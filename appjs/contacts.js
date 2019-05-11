@@ -92,6 +92,7 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }

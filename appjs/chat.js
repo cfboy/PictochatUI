@@ -158,6 +158,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }
@@ -208,6 +209,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }
@@ -254,6 +256,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }
@@ -373,6 +376,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }

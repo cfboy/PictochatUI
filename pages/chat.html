@@ -1,3 +1,11 @@
+<script>
+
+    $(document).ready(function () {
+        $('#action_menu_btn').click(function () {
+            $('.action_menu').toggle();
+        });
+    });
+</script>
 <div class="container-fluid">
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat">
@@ -34,7 +42,12 @@
         <div class="col-md-8 col-xl-9 chat">
             <div class="card">
                 <div class="card-header msg_head">
+
                     <div class="d-flex bd-highlight">
+                        <button class="chats waves-effect grey btn-small"
+                                ng-click="chatCtrl.showChats()"><i class="fa fa-chevron-left"
+                                                                   aria-hidden="true"></i> Home
+                        </button>
                         <div class="user_info">
                             <span>{{chatCtrl.chatDetails.chat_name}}</span>
                             <p></p>
@@ -43,10 +56,10 @@
                     <span id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
                     <div class="action_menu">
                         <ul>
-                            <li><i class="fa fa-user-circle"></i> View profile</li>
-                            <li><i class="fa fa-users"></i> Add to close friends</li>
+                            <!--<li><i class="fa fa-user-circle"></i> View profile</li>-->
+                            <li id="chatMembersView"><i class="fa fa-users"></i> Chat Members</li>
                             <li><i class="fa fa-plus"></i> Add to group</li>
-                            <li><i class="fa fa-ban"></i> Block</li>
+                            <!--<li><i class="fa fa-ban"></i> Block</li>-->
                         </ul>
                     </div>
                 </div>
@@ -102,9 +115,10 @@
                                     <div class="card-action" style="display: flex; padding: 30px 0 0">
                                         <input class="input_msg_write" name="replyText" ng-model="chatCtrl.replyText"
                                                placeholder="Reply Post..." required/>
-                                        <a ng-click="chatCtrl.replymsg(m)"
-                                           class="btn-floating btn-small waves-effect grey" ng-click="chatCtrl.replymsg(m)"><i
-                                                class="material-icons">reply </i></a>
+                                        <a ng-click="chatCtrl.replyPost(m)"
+                                           class="btn-floating btn-small waves-effect grey">
+                                            <i class="material-icons">reply </i>
+                                        </a>
                                     </div>
                                 </div>
 
@@ -134,7 +148,7 @@
 
                             <div class="input-group-append">
                                 <!--<button class="input-group-text send_btn" ng-disabled="!myForm.$valid"-->
-                                        <!--ng-click="uploadPic(picFile)"><i class="fa fa-location-arrow"></i></button>-->
+                                <!--ng-click="uploadPic(picFile)"><i class="fa fa-location-arrow"></i></button>-->
                                 <button class="input-group-text send_btn" ng-disabled="!myForm.$valid"
                                         ng-click="chatCtrl.postMsg()"><i class="fa fa-location-arrow"></i></button>
 

@@ -4,16 +4,53 @@
             <div class="col s12 m6">
                 <div class="card">
                     <div class="card-content">
-                        <span class="card-title">Contact List</span>
+                        <span class="card-title">Contacts</span>
                         <table>
+                            <thead>
                             <tr>
-                                <th>Users</th>
+                                <th>My Contacts</th>
                             </tr>
+                            </thead>
                             <tbody>
                             <tr ng-repeat="c in contactCtrl.contacts">
-                                <th>{{c.first_name}} {{c.last_name}}</th>
+                                <td>{{c.first_name}} {{c.first_name}}</td>
                             </tr>
+                            </tbody>
+                        </table>
+                        <br>
+                        <br>
 
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>System Users</th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <ui-select multiple sortable="true"
+                                               ng-model="contactCtrl.usersSelected"
+                                               theme="select2" class="form-control" title="Choose a person">
+                                        <ui-select-match placeholder="Select or search a person in the list...">
+                                            {{$item.first_name}}
+                                        </ui-select-match>
+                                        <ui-select-choices
+                                                repeat="item in contactCtrl.systemUsers | filter: $select.search">
+                                            <div ng-bind-html="item.first_name | highlight: $select.search"></div>
+                                            <small ng-bind-html="item.user_id | highlight: $select.search"></small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </td>
+                                <td>
+                                    <button class="waves-effect blue-grey lighten-1 btn-small float-right"
+                                            type="submit" name="action" ng-click="contactCtrl.addContact()"> ADD CONTACT
+                                        <!--i class="material-icons right">send</i>-->
+                                    </button>
+                                </td>
+
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -24,10 +61,7 @@
                              aria-hidden="true"></i> Chats
                         </button>
 
-                        <button class="waves-effect blue-grey lighten-1 btn-small float-right"
-                                type="submit" name="action" ng-click="contactCtrl.addContact()"> ADD CONTACT
-                            <!--i class="material-icons right">send</i>-->
-                        </button>
+
                     </div>
                 </div>
             </div>

@@ -3,13 +3,18 @@
  */
 angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log', '$scope', '$location', '$routeParams',
     function ($http, $log, $scope, $location, $routeParams) {
+        var mem = sessionStorage;
 
         var thisCtrl = this;
         var name = "";
         // Participants
-        this.participants = [];
+        this.systemUsers = [];
+        this.chatName = "";
+        this.usersSelected = [];
+        this.chat_id = '';
+        this.user = mem.getItem('user_id');
 
-         this.loadUsers = function () {
+        this.loadUsers = function () {
             // Now create the url with the route to talk with the rest API
             var reqURL = "http://localhost:5000/Pictochat/users/all";
             console.log("reqURL: " + reqURL);
@@ -19,7 +24,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
                     // assing the part details to the variable in the controller
-                    thisCtrl.participants = response.data.Users;
+                    thisCtrl.systemUsers = response.data.Users;
                 }, //Error function
                 function (response) {
                     // This is the error function
@@ -41,41 +46,87 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                 }
             );
         };
-        this.saveGroup = function () {
+
+        this.createChat = function () {
+            //TODO: Create Route
+            alert("chat_name: " + this.chatName);
             // Build the data object
             var data = {};
-            data.name = this.name;
-            data.participants = this.participants;
+            data.chat_name = this.chatName;
+            //TODO: remove user_id
+            data.admin = this.user;
 
-            // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Pictochat/chat";
+            var reqURLNewChat = "http://localhost:5000/Pictochat/chats/new";
+            console.log("reqURL: " + reqURLNewChat);
+
+            // configuration headers for HTTP request
+            var config = {
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+
+            $http.post(reqURLNewChat, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    //TODO Validate data
+                    this.chat_id = response.data.Chat.chat_id;
+                    thisCtrl.addParticipants(this.chat_id);
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+
+        this.addParticipants = function (chatId) {
+            alert("Add Participants");
+            var data = {};
+            data.chat_id = chatId;
+            // alert("Participants:" + this.usersSelected);
+
+            data.participants = [];
+            for (var i = 0; i < this.usersSelected.length; i++) {
+                data.participants.unshift(this.usersSelected[i]['user_id']);
+            }
+
+            var reqURL = "http://localhost:5000/Pictochat/chat/addparticipants";
             console.log("reqURL: " + reqURL);
-            $location.url('/home');
 
             // configuration headers for HTTP request
             var config = {
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
-                    //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
                 }
             };
-            // Now issue the http request to the rest API
 
             $http.post(reqURL, data, config).then(
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    // tira un mensaje en un alert
-                    alert("New Group Chat added with id: " + response.data.Chat.cid);
-                    $location.url('/home');
+                    //TODO Validate data
+                    $location.path('/home');
+
                 }, //Error function
                 function (response) {
-                    // This is the error function
-                    // If we get here, some error occurred.
-                    // Verify which was the cause and show an alert.
+
                     var status = response.status;
-                    //console.log("Error: " + reqURL);
-                    //alert("Cristo");
+
                     if (status === 0) {
                         alert("No hay conexion a Internet");
                     } else if (status === 401) {

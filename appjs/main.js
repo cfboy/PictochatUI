@@ -1,12 +1,12 @@
 (function () {
 
-    var app = angular.module('PictochatUI', ['ngRoute', 'ngFileUpload']);
+    var app = angular.module('PictochatUI', ['ngRoute', 'ngFileUpload', 'ui.select', 'ngSanitize']);
 
     app.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
         $routeProvider.when('/login', {
             templateUrl: 'pages/login.html',
             controller: 'LoginController',
-            controllerAs : 'loginCtrl'
+            controllerAs: 'loginCtrl'
         }).when('/home', {
             templateUrl: 'pages/home.html',
             controller: 'HomeController',
@@ -30,7 +30,7 @@
         }).when('/user/:uid/contacts/', {
             templateUrl: 'pages/contacts.html',
             controller: 'ContactsController',
-            controllerAs : 'contactCtrl'
+            controllerAs: 'contactCtrl'
         }).otherwise({
             redirectTo: '/login'
         });

@@ -41,7 +41,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         //This function load all information of Chat.
         this.loadChat = function () {
             var chatId = $routeParams.cid;
-            // alert(chatId);
             var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId;
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
@@ -52,6 +51,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     // assing the part details to the variable in the controller
                     thisCtrl.chatDetails = response.data.Chat;
                     console.log("Posts List: " + thisCtrl.chatDetails);
+                    thisCtrl.loadPosts();
                 }, //Error function
                 function (response) {
                     // This is the error function
@@ -75,10 +75,13 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             // Get the messages from the server through the rest api
 
             $log.debug("Chat Loaded: ", JSON.stringify(thisCtrl.chatDetails));
+        };
 
-
+        this.loadPosts = function () {
+            var chatId = $routeParams.cid;
             // Now create the url with the route to talk with the rest API
-            reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId + "/posts";
+            var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId + "/posts";
+
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -88,6 +91,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     // assing the part details to the variable in the controller
                     thisCtrl.postList = response.data.PostsInChat;
                     console.log("Posts List: " + thisCtrl.postList);
+                    thisCtrl.loadUsers();
                 }, //Error function
                 function (response) {
                     // This is the error function
@@ -108,11 +112,13 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     }
                 }
             );
-            // Get the messages from the server through the rest api
+        };
 
-            $log.debug("Posts Loaded: ", JSON.stringify(thisCtrl.postList));
+        this.loadUsers = function () {
+            var chatId = $routeParams.cid;
             //Find users in chat.
-            reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId + "/users";
+            var reqURL = "http://127.0.0.1:5000/Pictochat/chat/" + chatId + "/users";
+
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -193,21 +199,19 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         };
         //Load chat components
         this.loadChat();
-        //This function redirect to load user information (NO SE USA)
-        this.loadUserInfo = function (uid) {
-            $location.url('/user/' + uid);
-        };
+
         //insert like on post
         this.likeAdd = function (post) {
             var user;
-            if (post.likedBy != null) {
-                for (var i = 0; i < post.likedBy.length; i++) {
-                    user = post.likedBy[i].userid;
+            if (post.dislikedBy != null) {
+                for (var i = 0; i < post.dislikedBy.length; i++) {
+                    user = post.dislikedBy[i].userid;
                     if (this.user == user) {
-                        return
+                        post.dislikes--;
                     }
                 }
             }
+
             // Build the data object
             var data = {};
             data.post_id = post['postId'];
@@ -231,11 +235,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("data: " + JSON.stringify(response.data));
                     // tira un mensaje en un alert
                     console.log("Post " + response.data.React.post_id + " Liked");
-                    //TODO recibir el username para actualizar lista
-                    // if (post.likedBy != null) {
-                    //     post.likedBy.push(response.data.React.user_id, response.data.React.username);
-                    // } else
-                    //     post.likedBy = [response.data.React.user_id, response.data.React.username];
                     post.likes++;
                 }, //Error function
                 function (response) {
@@ -259,11 +258,11 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         //insert dislike on post
         this.dislikeAdd = function (post) {
             var user;
-            if (post.dislikedBy != null) {
-                for (var i = 0; i < post.dislikedBy.length; i++) {
-                    user = post.dislikedBy[i].userid;
+            if (post.likedBy != null) {
+                for (var i = 0; i < post.likedBy.length; i++) {
+                    user = post.likedBy[i].userid;
                     if (this.user == user) {
-                        return
+                        post.likes--;
                     }
                 }
             }
@@ -290,12 +289,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("data: " + JSON.stringify(response.data));
                     // tira un mensaje en un alert
                     console.log("Post " + response.data.React.post_id + " Disliked");
-
-                    //TODO recibir el username para actualizar lista
-                    // if (post.likedBy != null) {
-                    //     post.likedBy.push(response.data.React.user_id, response.data.React.username);
-                    // } else
-                    //     post.likedBy = [response.data.React.user_id, response.data.React.username];
                     post.dislikes++;
                 }, //Error function
                 function (response) {
@@ -316,55 +309,125 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
-        //load all users liked m post.
-        this.loadLikes = function (m) {
-            if (m.likedBy == null)
-                alert("No likes yet :(");
-            else {
-                var list = "User that liked the message: \n";
-                var ref = m.likedBy;
-                for (var i = 0; i < m.likedBy.length; i++)
-                    list += m.likedBy[i].username + " \n";
-                alert(list);
-            }
 
-        };
-        //load all users disliked m post.
-        this.loadDislikes = function (m) {
-            if (m.dislikedBy == null)
-                alert("No dislikes yet :)");
-            else {
-                var list = "User that disliked the message: \n";
-                var ref = m.dislikedBy;
-                for (var i = 0; i < m.dislikedBy.length; i++)
-                    list += m.dislikedBy[i].username + " \n";
-                alert(list);
-            }
-        };
-        //TODO: implement reply function
-        this.replymsg = function (m) {
+        this.loadLikes = function (post) {
+            var post_id = post['postId'];
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/" + post_id + "/likes";
+            console.log("reqURL: " + reqURL);
 
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("Users liked Post: " + JSON.stringify(response.data));
+                    var list = "User that liked the post: \n";
+                    for (var i = 0; i < response.data.UsersLikedPost.length; i++)
+                        list += response.data.UsersLikedPost[i]["username"] + " \n";
+                    alert(list);
+
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+        this.loadDislikes = function (post) {
+            var post_id = post['postId'];
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/" + post_id + "/dislikes";
+            console.log("reqURL: " + reqURL);
+
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("Users Disliked Post: " + JSON.stringify(response.data));
+                    var list = "User that disliked the post: \n";
+                    for (var i = 0; i < response.data.UsersDislikedPost.length; i++)
+                        list += response.data.UsersDislikedPost[i]["username"] + " \n";
+                    alert(list);
+
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+        this.replyPost = function (m) {
             var msg = thisCtrl.replyText;
             if (msg === "")
                 return;
-            var data = {'cid': thisCtrl.cid, 'uid': thisCtrl.uid, 'text': msg, 'reply': m['mid']};
-            // $http({
-            //     url: 'http://localhost:5000/SocialMessagingApp/message/post',
-            //     method: "PUT",
-            //     headers: {'Content-Type': 'application/json'},
-            //     data: JSON.stringify(data)
-            // }).then(function (response) {
-            // var mid = response.data.mid;
-            m.replies.unshift({
-                "reply_date": 'Thu, 28 Mar 2019 14:31:20 GMT',
-                "reply_id": 2,
-                "reply_msg": msg,
-                "reply_username": thisCtrl.username
-            });
-            // }).catch(function (error) {
-            //     console.log("este es el error");
-            // });
-            thisCtrl.replyText = "";
+            // Build the data object
+            var data = {};
+            data.post_id = m['postId'];
+            data.reply_msg = msg;
+            //TODO: remove user_id
+            data.user_id = this.user;
 
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/post/reply";
+            console.log("reqURL: " + reqURL);
+
+            // configuration headers for HTTP request
+            var config = {
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+            $http.post(reqURL, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // tira un mensaje en un alert
+                    console.log("Reply to post " + response.data.Reply.post_id + " Added");
+                    m.replies.push(response.data.Reply);
+                    thisCtrl.replyText = "";
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+
+        this.showChats = function () {
+            $location.path('/home');
         };
     }]);

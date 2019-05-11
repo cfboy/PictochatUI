@@ -1,8 +1,8 @@
 /**
  * Created by cfboy on 4/6/19.
  */
-angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$location', '$rootScope', 'Upload', '$routeParams',
-    function ($http, $log, $scope, $location, $rootScope, Upload, $routeParams) {
+angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$location', '$rootScope', 'Upload', '$route', '$routeParams', '$timeout',
+    function ($http, $log, $scope, $location, $rootScope, Upload, $route, $routeParams, $timeout) {
         var mem = sessionStorage;
         var thisCtrl = this;
 
@@ -130,9 +130,14 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             });
 
             file.upload.then(function (response) {
+
                 $timeout(function () {
                     file.result = response.data;
-                    thisCtrl.postList.push(response.data.Post)
+                    //TODO: implement push and remove relod.
+                    // thisCtrl.postList.push(response.data.Post);
+                    // $scope.file = "";
+                    // $scope.message = "";
+                    $route.reload()
                 });
             }, function (response) {
                 if (response.status > 0)
@@ -141,6 +146,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 // Math.min is to fix IE which reports 200% sometimes
                 file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
             });
+
+
         };
 
         //Load chat components

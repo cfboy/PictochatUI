@@ -17,27 +17,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         //TODO: Implement Session
         this.user = mem.getItem('user_id');
 
-        $rootScope.prueba = "";
 
-        //TODO: Implement media upload
-        // $scope.uploadPic = function (file) {
-        //     file.upload = Upload.upload({
-        //         url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-        //         data: {username: $scope.username, file: file},
-        //     });
-        //
-        //     file.upload.then(function (response) {
-        //         $timeout(function () {
-        //             file.result = response.data;
-        //         });
-        //     }, function (response) {
-        //         if (response.status > 0)
-        //             $scope.errorMsg = response.status + ': ' + response.data;
-        //     }, function (evt) {
-        //         // Math.min is to fix IE which reports 200% sometimes
-        //         file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-        //     });
-        // };
         //This function load all information of Chat.
         this.loadChat = function () {
             var chatId = $routeParams.cid;
@@ -141,56 +121,28 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             $log.debug("Users Loaded: ", JSON.stringify(thisCtrl.usersInChat));
         };
 
-        //This function Insert new Post
-        this.postMsg = function () {
-            var msg = thisCtrl.newText;
 
-            // Build the data object
-            var data = {};
-            data.chat_id = this.chatDetails.chatId;
-            data.post_msg = this.newText;
-            //TODO: remove user_id
-            data.user_id = this.user;
-
-            // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Pictochat/post/new";
-            console.log("reqURL: " + reqURL);
-
-            // configuration headers for HTTP request
-            var config = {
+        $scope.uploadPic = function (file) {
+            file.upload = Upload.upload({
                 withCredentials: true,
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8;'
-                }
-            };
-            $http.post(reqURL, data, config).then(
-                // Success function
-                function (response) {
-                    console.log("data: " + JSON.stringify(response.data));
-                    // tira un mensaje en un alert
-                    console.log("Post " + response.data.React.post_id + " Added");
-                    //TODO: Falta el dictionary completo de Post
-                    thisCtrl.postList.unshift(response.data.Post);
-                    thisCtrl.newText = "";
-                }, //Error function
-                function (response) {
+                url: 'http://localhost:5000/Pictochat/post/new',
+                data: {user_id: thisCtrl.user, chat_id: $routeParams.cid, post_msg: $scope.message, file: file},
+            });
 
-                    var status = response.status;
-
-                    if (status === 0) {
-                        alert("No hay conexion a Internet");
-                    } else if (status === 401) {
-                        alert("Su sesion expiro. Conectese de nuevo.");
-                    } else if (status === 403) {
-                        alert("No esta autorizado a usar el sistema.");
-                    } else if (status === 404) {
-                        alert("No se encontro la informacion solicitada.");
-                    } else {
-                        alert("Error interno del sistema.");
-                    }
-                }
-            );
+            file.upload.then(function (response) {
+                $timeout(function () {
+                    file.result = response.data;
+                    thisCtrl.postList.push(response.data.Post)
+                });
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                // Math.min is to fix IE which reports 200% sometimes
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            });
         };
+
         //Load chat components
         this.loadChat();
 

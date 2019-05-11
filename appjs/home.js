@@ -38,7 +38,7 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
                     } else if (status === 403) {
                         alert("No esta autorizado a usar el sistema.");
                     } else if (status === 404) {
-                        alert("No se encontro la informacion solicitada.");
+                        // alert("No se encontro la informacion solicitada.");
                     } else {
                         alert("Error interno del sistema.");
                     }

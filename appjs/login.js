@@ -15,6 +15,7 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                     //'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'

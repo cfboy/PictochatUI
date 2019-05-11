@@ -49,7 +49,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
 
         this.createChat = function () {
             //TODO: Create Route
-            alert("chat_name: " + this.chatName);
+            // alert("chat_name: " + this.chatName);
             // Build the data object
             var data = {};
             data.chat_name = this.chatName;
@@ -95,7 +95,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
         };
 
         this.addParticipants = function (chatId) {
-            alert("Add Participants");
+            // alert("Add Participants");
             var data = {};
             data.chat_id = chatId;
             // alert("Participants:" + this.usersSelected);

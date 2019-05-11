@@ -1,8 +1,8 @@
 /**
  * Created by cfboy on 4/6/19.
  */
-angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$rootScope', '$location', 'Upload', '$routeParams',
-    function ($http, $log, $scope, $rootScope, Upload, $location, $routeParams) {
+angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$scope', '$location', '$rootScope', 'Upload', '$routeParams',
+    function ($http, $log, $scope, $location, $rootScope, Upload, $routeParams) {
         var mem = sessionStorage;
         var thisCtrl = this;
 
@@ -20,24 +20,24 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         $rootScope.prueba = "";
 
         //TODO: Implement media upload
-        $scope.uploadPic = function (file) {
-            file.upload = Upload.upload({
-                url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-                data: {username: $scope.username, file: file},
-            });
-
-            file.upload.then(function (response) {
-                $timeout(function () {
-                    file.result = response.data;
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    $scope.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                // Math.min is to fix IE which reports 200% sometimes
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
-        };
+        // $scope.uploadPic = function (file) {
+        //     file.upload = Upload.upload({
+        //         url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+        //         data: {username: $scope.username, file: file},
+        //     });
+        //
+        //     file.upload.then(function (response) {
+        //         $timeout(function () {
+        //             file.result = response.data;
+        //         });
+        //     }, function (response) {
+        //         if (response.status > 0)
+        //             $scope.errorMsg = response.status + ': ' + response.data;
+        //     }, function (evt) {
+        //         // Math.min is to fix IE which reports 200% sometimes
+        //         file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+        //     });
+        // };
         //This function load all information of Chat.
         this.loadChat = function () {
             var chatId = $routeParams.cid;
@@ -54,9 +54,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     thisCtrl.loadPosts();
                 }, //Error function
                 function (response) {
-                    // This is the error function
-                    // If we get here, some error occurred.
-                    // Verify which was the cause and show an alert.
                     var status = response.status;
                     //console.log("Error: " + reqURL);
                     if (status === 0) {
@@ -94,9 +91,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     thisCtrl.loadUsers();
                 }, //Error function
                 function (response) {
-                    // This is the error function
-                    // If we get here, some error occurred.
-                    // Verify which was the cause and show an alert.
                     var status = response.status;
                     //console.log("Error: " + reqURL);
                     if (status === 0) {
@@ -143,7 +137,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     }
                 }
             );
-            // Get the messages from the server through the rest api
 
             $log.debug("Users Loaded: ", JSON.stringify(thisCtrl.usersInChat));
         };
@@ -202,16 +195,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
         //insert like on post
         this.likeAdd = function (post) {
-            var user;
-            if (post.dislikedBy != null) {
-                for (var i = 0; i < post.dislikedBy.length; i++) {
-                    user = post.dislikedBy[i].userid;
-                    if (this.user == user) {
-                        post.dislikes--;
-                    }
-                }
-            }
-
             // Build the data object
             var data = {};
             data.post_id = post['postId'];
@@ -235,7 +218,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("data: " + JSON.stringify(response.data));
                     // tira un mensaje en un alert
                     console.log("Post " + response.data.React.post_id + " Liked");
-                    post.likes++;
+                    post.dislikes = response.data.React.totalDislikes;
+                    post.likes = response.data.React.totalLikes;
                 }, //Error function
                 function (response) {
 
@@ -257,15 +241,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         };
         //insert dislike on post
         this.dislikeAdd = function (post) {
-            var user;
-            if (post.likedBy != null) {
-                for (var i = 0; i < post.likedBy.length; i++) {
-                    user = post.likedBy[i].userid;
-                    if (this.user == user) {
-                        post.likes--;
-                    }
-                }
-            }
             // Build the data object
             var data = {};
             data.post_id = post['postId'];
@@ -289,7 +264,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("data: " + JSON.stringify(response.data));
                     // tira un mensaje en un alert
                     console.log("Post " + response.data.React.post_id + " Disliked");
-                    post.dislikes++;
+                    post.dislikes = response.data.React.totalDislikes;
+                    post.likes = response.data.React.totalLikes;
                 }, //Error function
                 function (response) {
 
@@ -344,6 +320,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
+
         this.loadDislikes = function (post) {
             var post_id = post['postId'];
             // Now create the url with the route to talk with the rest API
@@ -378,6 +355,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
+
         this.replyPost = function (m) {
             var msg = thisCtrl.replyText;
             if (msg === "")

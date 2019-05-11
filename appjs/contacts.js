@@ -23,6 +23,7 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                     */
                     thisCtrl.contacts = response.data.UserContacts;
                     console.log(thisCtrl.contacts);
+                    thisCtrl.loadSystemUsers();
                 },
                 function (response) {
                     // This is the error function
@@ -43,6 +44,10 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                 });
 
             $log.debug("Contact list Loaded: ", JSON.stringify(thisCtrl.contacts));
+        };
+
+        this.loadSystemUsers = function () {
+            //TODO: need query return all users in the system except current_user (logged), and users on his contactList.
             var reqURL = "http://localhost:5000/Pictochat/users/all";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
@@ -71,12 +76,18 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                 }
             );
         };
+        this.addContacts = function () {
+            // alert("Add Contacts");
+            var data = {};
+            data.user_id = this.uid;
+            // alert("Participants:" + this.usersSelected);
 
-        this.addContact = function () {
-            alert(this.usersSelected);
-            //TODO: Create Route
+            data.contacts = [];
+            for (var i = 0; i < this.usersSelected.length; i++) {
+                data.contacts.unshift(this.usersSelected[i]['user_id']);
+            }
 
-            var reqURL = "http://localhost:5000/Pictochat/user/" + thisCtrl.uid + "/contacts";
+            var reqURL = "http://localhost:5000/Pictochat/user/" + this.uid + "/contacts";
             console.log("reqURL: " + reqURL);
 
             // configuration headers for HTTP request
@@ -90,8 +101,11 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                 // Success function
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
-                    this.contacts.unshift(response.data.Contacts);
-                    this.usersSelected = [];
+                    console.log("New Contacts Added: " + thisCtrl.contacts);
+                    thisCtrl.usersSelected = [];
+                    thisCtrl.contacts = response.data.UserContacts;
+                    thisCtrl.loadSystemUsers();
+
                 }, //Error function
                 function (response) {
 
@@ -110,8 +124,6 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                     }
                 }
             );
-//
-
         };
 
         this.showChats = function () {

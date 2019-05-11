@@ -124,6 +124,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         $scope.uploadPic = function (file) {
 
             file.upload = Upload.upload({
+                withCredentials: true,
                 url: 'http://localhost:5000/Pictochat/post/new',
                 data: {user_id: thisCtrl.user, chat_id: $routeParams.cid, post_msg: $scope.message, file: file},
             });
@@ -160,6 +161,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }
@@ -206,6 +208,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }
@@ -325,6 +328,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
             // configuration headers for HTTP request
             var config = {
+                withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8;'
                 }

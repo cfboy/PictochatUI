@@ -121,8 +121,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             $log.debug("Users Loaded: ", JSON.stringify(thisCtrl.usersInChat));
         };
 
-        $scope.uploadPic = function (file) {
 
+        $scope.uploadPic = function (file) {
             file.upload = Upload.upload({
                 withCredentials: true,
                 url: 'http://localhost:5000/Pictochat/post/new',

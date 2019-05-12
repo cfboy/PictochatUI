@@ -1,106 +1,210 @@
-<div ng-cloak style="align-content: center">
+<!--<div ng-cloak style="align-content: center">-->
 
-    <style type="text/css">
-        #left {
-           float:left;
-           width:25%;
-           margin-left: 22.5%;
-        }
-        #right {
-           float:right;
-           width:25%;
-           margin-right: 22.5%;
-        }
-    </style>
+<!--<style type="text/css">-->
+<!--#left {-->
+<!--float: left;-->
+<!--width: 25%;-->
+<!--margin-left: 22.5%;-->
+<!--}-->
 
-    <div id="left">
-        <form name="form" ng-submit="loginCtrl.checkLogin(login_username, login_password)" role="form">
-            <center><h5>LOGIN</h5></center>
-            <div class="form-group">
-                <label for="username">Username</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="username" id="username" class="form-control" ng-model="login_username" required />
+<!--#right {-->
+<!--float: right;-->
+<!--width: 25%;-->
+<!--margin-right: 22.5%;-->
+<!--}-->
+<!--</style>-->
+
+<!--<div id="left">-->
+<!--<form name="form" ng-submit="loginCtrl.checkLogin(login_username, login_password)" role="form">-->
+<!--<center><h5>LOGIN</h5></center>-->
+<!--<div class="form-group">-->
+<!--<label for="username">Username</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="text" name="username" id="username" class="form-control" ng-model="login_username"-->
+<!--required/>-->
+<!--</div>-->
+<!--<span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="password">Password</label>-->
+<!--<i class="fa fa-lock"></i>-->
+<!--<div>-->
+<!--<input type="password" name="password" id="password" class="form-control" ng-model="login_password"-->
+<!--required/>-->
+<!--</div>-->
+<!--<span ng-show="form.password.$dirty && form.password.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-actions">-->
+<!--<button type="submit" class="btn btn-danger">Login</button>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--<div id="right">-->
+<!--<form name="form" ng-submit="loginCtrl.register(firstname, lastname, phone, email, password, username)"-->
+<!--role="form">-->
+<!--<center><h5>REGISTER</h5></center>-->
+<!--<div class="form-group">-->
+<!--<label for="firstname">First Name</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="text" name="firstname" id="firstname" class="form-control" ng-model="firstname"-->
+<!--required/>-->
+<!--</div>-->
+<!--<span ng-show="form.firstname.$dirty && form.firstname.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="lastname">Last Name</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="text" name="lastname" id="lastname" class="form-control" ng-model="lastname" required/>-->
+<!--</div>-->
+<!--<span ng-show="form.lastname.$dirty && form.lastname.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="phone">Phone</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="text" name="phone" id="phone" class="form-control" ng-model="phone" required/>-->
+<!--</div>-->
+<!--<span ng-show="form.phone.$dirty && form.phone.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="email">Email</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="email" name="email" id="email" class="form-control" ng-model="email" required/>-->
+<!--</div>-->
+<!--<span ng-show="form.email.$dirty && form.email.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="password">Password</label>-->
+<!--<i class="fa fa-lock"></i>-->
+<!--<div>-->
+<!--<input type="password" name="password" id="password" class="form-control" ng-model="password"-->
+<!--required/>-->
+<!--</div>-->
+<!--<span ng-show="form.password.$dirty && form.password.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-group">-->
+<!--<label for="username">Username</label>-->
+<!--<i class="fa fa-key"></i>-->
+<!--<div>-->
+<!--<input type="text" name="username" id="username" class="form-control" ng-model="username" required/>-->
+<!--</div>-->
+<!--<span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>-->
+<!--</div>-->
+
+<!--<div class="form-actions">-->
+<!--<button type="submit" class="btn btn-danger">Register</button>-->
+<!--</div>-->
+<!--</form>-->
+<!--</div>-->
+
+<!--</div>-->
+
+<!-- This snippet uses Font Awesome 5 Free as a dependency. You can download it at fontawesome.io! -->
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin ">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign In</h5>
+                    <form class="form-signin" ng-submit="loginCtrl.checkLogin(login_username, login_password)"
+                          role="form">
+                        <div class="form-label-group">
+                            <input type="text" id="username" name="username" class="form-control"
+                                   ng-model="login_username" placeholder="Email address"
+                                   required autofocus>
+                            <label for="username"> <i class="fa fa-lock"></i> Username</label>
+
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" id="password" class="form-control" placeholder="Password"
+                                   ng-model="login_password"
+                                   required>
+                            <label for="password"> <i class="fa fa-lock"></i> Password</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Log in</button>
+                        <hr class="my-4">
+
+                    </form>
+
                 </div>
-                <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>
             </div>
+        </div>
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin ">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Register</h5>
+                    <form class="form-signin"
+                          ng-submit="loginCtrl.register(firstname, lastname, phone, email, registerPassword, registerUsername)"
+                          role="form" autocomplete="off">
+                        <div class="form-label-group">
+                            <input type="text" id="firstname" name="firstname" class="form-control"
+                                   ng-model="firstname" placeholder="First Name"
+                                   required autofocus>
+                            <label for="firstname"><i class="fa fa-user"></i> First Name</label>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <i class="fa fa-lock"></i>
-                <div>
-                    <input type="password" name="password" id="password" class="form-control" ng-model="login_password" required />
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" id="lastname" name="lastname" class="form-control"
+                                   ng-model="lastname" placeholder="Last Name"
+                                   required autofocus>
+                            <label for="lastname"><i class="fa fa-user"></i> Last Name</label>
+
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                   ng-model="phone" placeholder="Phone"
+                                   required autofocus>
+                            <label for="phone"><i class="fa fa-phone"></i> Phone</label>
+
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" id="email" name="email" class="form-control"
+                                   ng-model="email" placeholder="Email"
+                                   required autofocus>
+                            <label for="email"><i class="fa fa-at"></i> Email</label>
+
+                        </div>
+                        <div class="form-label-group">
+                            <input type="text" id="registerUsername" name="registerUsername" class="form-control"
+                                   ng-model="registerUsername" placeholder="username"
+                                   required autocomplete="off">
+                            <label for="registerUsername"><i class="fa fa-lock"></i> Username</label>
+
+                        </div>
+
+                        <div class="form-label-group">
+                            <input type="password" id="registerPassword" name="registerPassword" class="form-control"
+                                   placeholder="Password"
+                                   ng-model="registerPassword"
+                                   required autocomplete="off">
+                            <label for="registerPassword"><i class="fa fa-lock"></i> Password</label>
+                        </div>
+
+                        <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
+                        <hr class="my-4">
+
+                    </form>
+
                 </div>
-                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block"></span>
             </div>
+        </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn btn-danger">Login</button>
-            </div>
-        </form>
     </div>
-
-    <div id="right">
-        <form name="form" ng-submit="loginCtrl.register(firstname, lastname, phone, email, password, username)" role="form">
-            <center><h5>REGISTER</h5></center>
-            <div class="form-group">
-                <label for="firstname">First Name</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="firstname" id="firstname" class="form-control" ng-model="firstname" required />
-                </div>
-                <span ng-show="form.firstname.$dirty && form.firstname.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="lastname">Last Name</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="lastname" id="lastname" class="form-control" ng-model="lastname" required />
-                </div>
-                <span ng-show="form.lastname.$dirty && form.lastname.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="phone">Phone</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="phone" id="phone" class="form-control" ng-model="phone" required />
-                </div>
-                <span ng-show="form.phone.$dirty && form.phone.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="email" name="email" id="email" class="form-control" ng-model="email" required />
-                </div>
-                <span ng-show="form.email.$dirty && form.email.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <i class="fa fa-lock"></i>
-                <div>
-                    <input type="password" name="password" id="password" class="form-control" ng-model="password" required />
-                </div>
-                <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="username">Username</label>
-                <i class="fa fa-key"></i>
-                <div>
-                    <input type="text" name="username" id="username" class="form-control" ng-model="username" required />
-                </div>
-                <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block"></span>
-            </div>
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-danger">Register</button>
-            </div>
-        </form>
-    </div>
-
 </div>
+</body>

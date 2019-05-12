@@ -68,7 +68,9 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     // assing the part details to the variable in the controller
                     thisCtrl.postList = response.data.PostsInChat;
                     console.log("Posts List: " + thisCtrl.postList);
+
                     thisCtrl.loadUsers();
+
                 }, //Error function
                 function (response) {
                     var status = response.status;
@@ -121,7 +123,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             $log.debug("Users Loaded: ", JSON.stringify(thisCtrl.usersInChat));
         };
 
-
+        //Method for posts
         $scope.uploadPic = function (file) {
             file.upload = Upload.upload({
                 withCredentials: true,
@@ -152,7 +154,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
 
         //Load chat components
         this.loadChat();
-
         //insert like on post
         this.likeAdd = function (post) {
             // Build the data object
@@ -247,7 +248,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
-
+        //Show users liked a post
         this.loadLikes = function (post) {
             var post_id = post['postId'];
             // Now create the url with the route to talk with the rest API
@@ -282,7 +283,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
-
+        //Show users disliked a post
         this.loadDislikes = function (post) {
             var post_id = post['postId'];
             // Now create the url with the route to talk with the rest API
@@ -317,7 +318,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
-
+        //Reply
         this.replyPost = function (m, replyTxt, inputId) {
             var msg = replyTxt;
             if (msg === "")
@@ -347,7 +348,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     // tira un mensaje en un alert
                     console.log("Reply to post " + response.data.Reply.post_id + " Added");
                     m.replies.push(response.data.Reply);
-                    $("#"+inputId).val('');
+                    $("#" + inputId).val('');
                 }, //Error function
                 function (response) {
 
@@ -367,7 +368,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                 }
             );
         };
-
+        //Back to Home
         this.showChats = function () {
             $location.path('/home');
         };

@@ -9,14 +9,8 @@
 <div class="container-fluid">
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat">
-            <div class="card mb-sm-3 mb-md-0 contacts_card">
+            <div class="card color-card mb-sm-3 mb-md-0 contacts_card">
                 <div class="card-header">
-                    <!--<div class="input-group">-->
-                    <!--<input type="text" placeholder="Search..." name="" class="form-control search">-->
-                    <!--<div class="input-group-prepend">-->
-                    <!--<span class="input-group-text search_btn"><i class="fa fa-search"></i></span>-->
-                    <!--</div>-->
-                    <!--</div>-->
                     <h3>Chat Members</h3>
                 </div>
                 <div class="card-body contacts_body">
@@ -40,7 +34,7 @@
             </div>
         </div>
         <div class="col-md-8 col-xl-9 chat">
-            <div class="card">
+            <div class="card color-card">
                 <div class="card-header msg_head">
 
                     <div class="d-flex bd-highlight">
@@ -63,7 +57,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="card-body msg_card_body">
+                <div class="card-body msg_card_body" id="postDiv">
                     <div ng-repeat="m in chatCtrl.postList">
                         <div class="d-flex justify-content-start mb-4">
                             <div class="row">
@@ -78,7 +72,7 @@
                                     <div class="center">
                                         <img class="msg_img" src="http://127.0.0.1:5000{{m.mediaLocation}}" alt="">
                                     </div>
-                                    <p>{{m.postMsg}}</p>
+                                    <p class="postMsg">{{m.postMsg}}</p>
                                     <div class="card-action">
                                         <!--this is like-->
                                         <a ng-click="chatCtrl.likeAdd(m)"
@@ -180,3 +174,12 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function () {
+        $('#action_menu_btn').click(function () {
+            $('.action_menu').toggle();
+        });
+
+        // $("p.postMsg:contains('#')").css("text-decoration", "underline");
+    });
+</script>

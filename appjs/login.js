@@ -57,8 +57,8 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
         this.register = function (firstname, lastname, phone, email, password, username) {
             var reqURL = "http://localhost:5000/Pictochat/users/register";
             var data = {
-                'firstname': firstname,
-                'lastname': lastname,
+                'first_name': firstname,
+                'last_name': lastname,
                 'phone': phone,
                 'email': email,
                 'password': password,
@@ -69,9 +69,9 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                 // Success function
                 function (response) {
                     var user = response.data.User;
-                    mem.setItem('username', user['Username']);
-                    mem.setItem('uid', user['UserId']);
-                    $location.path('/chatMenu')
+                    mem.setItem('username', user['username']);
+                    mem.setItem('user_id', user['user_Id']);
+                    $location.path('/home')
                 },
                 function (response) {
                     // This is the error function

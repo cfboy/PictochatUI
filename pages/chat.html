@@ -4,6 +4,10 @@
         $('#action_menu_btn').click(function () {
             $('.action_menu').toggle();
         });
+
+        $('.card-body').find('p.postMsg').each(function () {
+            alert($(this).text());
+        });
     });
 </script>
 <div class="container-fluid">
@@ -24,7 +28,7 @@
                                 </div>
                                 <div class="user_info">
                                     <span>{{user.first_name}}</span>
-                                    <p>{{user.first_name}} is online</p>
+                                    <p>{{user.username}} is online</p>
                                 </div>
                             </div>
                         </li>

@@ -69,8 +69,8 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                 // Success function
                 function (response) {
                     var user = response.data.User;
-                    mem.setItem('username', user['username']);
-                    mem.setItem('user_id', user['user_Id']);
+                    mem.setItem('username', response.data.User['username']);
+                    mem.setItem('user_id', response.data.User['user_id']);
                     $location.path('/home')
                 },
                 function (response) {

@@ -11,6 +11,39 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
         this.systemUsers = [];
         thisCtrl.ctid = "";
 
+        this.loadSystemUsers = function () {
+            //TODO: need query return all users in the system except current_user (logged), and users on his contactList.
+            var reqURL = "http://localhost:5000/Pictochat/users/all";
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+                    thisCtrl.systemUsers = response.data.Users;
+                    thisCtrl.loadContacts();
+
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+                    //console.log("Error: " + reqURL);
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+
         this.loadContacts = function () {
             var reqURL = "http://localhost:5000/Pictochat/user/" + this.uid + "/contacts";
             console.log("reqURL: " + reqURL);
@@ -23,7 +56,6 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                     */
                     thisCtrl.contacts = response.data.UserContacts;
                     console.log(thisCtrl.contacts);
-                    thisCtrl.loadSystemUsers();
                 },
                 function (response) {
                     // This is the error function
@@ -46,36 +78,7 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
             $log.debug("Contact list Loaded: ", JSON.stringify(thisCtrl.contacts));
         };
 
-        this.loadSystemUsers = function () {
-            //TODO: need query return all users in the system except current_user (logged), and users on his contactList.
-            var reqURL = "http://localhost:5000/Pictochat/users/all";
-            console.log("reqURL: " + reqURL);
-            // Now issue the http request to the rest API
-            $http.get(reqURL).then(
-                // Success function
-                function (response) {
-                    console.log("data: " + JSON.stringify(response.data));
-                    // assing the part details to the variable in the controller
-                    thisCtrl.systemUsers = response.data.Users;
-                }, //Error function
-                function (response) {
 
-                    var status = response.status;
-                    //console.log("Error: " + reqURL);
-                    if (status === 0) {
-                        alert("No hay conexion a Internet");
-                    } else if (status === 401) {
-                        alert("Su sesion expiro. Conectese de nuevo.");
-                    } else if (status === 403) {
-                        alert("No esta autorizado a usar el sistema.");
-                    } else if (status === 404) {
-                        alert("No se encontro la informacion solicitada.");
-                    } else {
-                        alert("Error interno del sistema.");
-                    }
-                }
-            );
-        };
         this.addContacts = function () {
             // alert("Add Contacts");
             var data = {};
@@ -131,5 +134,5 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
             $location.path('/home');
         };
 
-        this.loadContacts();
+        this.loadSystemUsers();
     }]);

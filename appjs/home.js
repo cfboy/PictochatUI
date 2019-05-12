@@ -1,8 +1,8 @@
 /**
  * Created by cfboy on 4/6/19.
  */
-angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$scope', '$location', '$routeParams',
-    function ($http, $log, $scope, $location, $routeParams) {
+angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$scope', '$location', '$rootScope', '$route', '$routeParams',
+    function ($http, $log, $scope, $location, $rootScope, $route, $routeParams) {
         var thisCtrl = this;
 
         var mem = sessionStorage;
@@ -57,6 +57,12 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
 
         this.contactList = function (userId) {
             $location.path('/user/' + userId + '/contacts')
+        };
+
+        this.logout = function () {
+            mem.setItem('username', '');
+            mem.setItem('user_id', '');
+            $location.path('/login')
         };
 
         this.loadHome();

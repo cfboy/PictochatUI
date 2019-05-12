@@ -39,7 +39,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                     } else if (status === 403) {
                         alert("No esta autorizado a usar el sistema.");
                     } else if (status === 404) {
-                        alert("No se encontro la informacion solicitada.");
+                        alert("No tiene usuarios en su lista de contactos.");
                     } else {
                         alert("Error interno del sistema.");
                     }

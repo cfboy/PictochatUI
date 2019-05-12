@@ -13,7 +13,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         //Var for text of new post
         this.newText = "";
         //Var for text of post reply
-        this.replyText = "";
+        // this.replyText = "";
         //TODO: Implement Session
         this.user = mem.getItem('user_id');
 
@@ -318,8 +318,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
             );
         };
 
-        this.replyPost = function (m) {
-            var msg = thisCtrl.replyText;
+        this.replyPost = function (m, replyTxt, inputId) {
+            var msg = replyTxt;
             if (msg === "")
                 return;
             // Build the data object
@@ -347,7 +347,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     // tira un mensaje en un alert
                     console.log("Reply to post " + response.data.Reply.post_id + " Added");
                     m.replies.push(response.data.Reply);
-                    thisCtrl.replyText = "";
+                    $("#"+inputId).val('');
                 }, //Error function
                 function (response) {
 

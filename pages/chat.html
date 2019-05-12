@@ -113,12 +113,19 @@
                                         </div>
                                     </div>
                                     <div class="card-action" style="display: flex; padding: 30px 0 0">
-                                        <input class="input_msg_write" name="replyText" ng-model="chatCtrl.replyText"
-                                               placeholder="Reply Post..." required/>
-                                        <a ng-click="chatCtrl.replyPost(m)"
-                                           class="btn-floating btn-small waves-effect grey">
-                                            <i class="material-icons">reply </i>
-                                        </a>
+                                        <form name="form"
+                                              ng-submit="chatCtrl.replyPost(m, replyTxt, 'reply'+m.postId)"
+                                              style="width: 100%"
+                                              role="form">
+                                            <div style="display: flex">
+                                                <input class="input_msg_write" id="reply{{m.postId}}" name="replyText"
+                                                       ng-model="replyTxt"
+                                                       placeholder="Reply Post..." required/>
+                                                <button type="submit" class="btn-floating btn-small waves-effect grey">
+                                                    <i class="material-icons">reply </i>
+                                                </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
 
@@ -143,9 +150,10 @@
                                       ngf-model-invalid="errorFile"><i class="fa fa-paperclip"></i>
                                     </span>
                             </div>
-                            <textarea class="form-control type_msg" name="message" ng-model="message"
-                                      placeholder="Type your message..." required></textarea>
-
+                            <!--<textarea class="form-control type_msg" name="message" ng-model="message"-->
+                            <!--placeholder="Type your message..." required></textarea>-->
+                            <input class="form-control type_msg" name="message" ng-model="message"
+                                   placeholder="Type your message..." required/>
                             <div class="input-group-append">
                                 <!--<button class="input-group-text send_btn" ng-disabled="!myForm.$valid"-->
                                 <!--ng-click="uploadPic(picFile)"><i class="fa fa-location-arrow"></i></button>-->

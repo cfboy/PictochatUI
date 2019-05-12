@@ -8,7 +8,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
         var thisCtrl = this;
         var name = "";
         // Participants
-        this.systemUsers = [];
+        this.userContacts = [];
         this.chatName = "";
         this.usersSelected = [];
         this.chat_id = '';
@@ -16,7 +16,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
 
         this.loadUsers = function () {
             // Now create the url with the route to talk with the rest API
-            var reqURL = "http://localhost:5000/Pictochat/users/all";
+            var reqURL = "http://localhost:5000/Pictochat/user/" + this.user + "/contacts";
             console.log("reqURL: " + reqURL);
             // Now issue the http request to the rest API
             $http.get(reqURL).then(
@@ -24,7 +24,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                 function (response) {
                     console.log("data: " + JSON.stringify(response.data));
                     // assing the part details to the variable in the controller
-                    thisCtrl.systemUsers = response.data.Users;
+                    thisCtrl.userContacts = response.data.UserContacts;
                 }, //Error function
                 function (response) {
                     // This is the error function

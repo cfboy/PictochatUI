@@ -18,12 +18,12 @@
                                                ng-model="newGroupCtrl.usersSelected"
                                                theme="select2" class="form-control" title="Choose a person">
                                         <ui-select-match placeholder="Select or search a person in the list...">
-                                            {{$item.first_name}} {{$item.last_name}}
+                                            {{$item.first_name}} {{$item.last_name}} - {{$item.username}}
                                         </ui-select-match>
                                         <ui-select-choices
-                                                repeat="item in newGroupCtrl.systemUsers | filter: $select.search">
+                                                repeat="item in newGroupCtrl.userContacts | filter: $select.search">
                                             <div ng-bind-html="item.first_name | highlight: $select.search"></div>
-                                            <small ng-bind-html="item.user_id | highlight: $select.search"></small>
+                                            <small ng-bind-html="item.username | highlight: $select.search"></small>
                                         </ui-select-choices>
                                     </ui-select>
                                 </td>

@@ -477,3 +477,6 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         };
 
     }]);
+function openMenu() {
+    $('.action_menu').toggle();
+}

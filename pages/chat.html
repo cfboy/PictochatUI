@@ -55,6 +55,7 @@
                             <p></p>
                         </div>
                     </div>
+                    <span>admin: {{chatCtrl.chatDetails.username}}</span>
                     <span id="action_menu_btn" onclick="openMenu()"><i class="fa fa-ellipsis-v"></i></span>
                     <div class="action_menu">
                         <ul>
@@ -215,7 +216,8 @@
                 <!-- Modal footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary"
-                            ng-click="chatCtrl.addParticipants(chatCtrl.chatDetails.chat_id)" ng-disabled="!myFormContacts.$valid">Add
+                            ng-click="chatCtrl.addParticipants(chatCtrl.chatDetails.chat_id)"
+                            ng-disabled="!myFormContacts.$valid">Add
                     </button>
                     <!--<button type="button" class="btn btn-danger" onclick="hideModal()">Cancel</button>-->
 

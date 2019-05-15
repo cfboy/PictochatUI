@@ -31,6 +31,10 @@
             templateUrl: 'pages/contacts.html',
             controller: 'ContactsController',
             controllerAs: 'contactCtrl'
+        }).when('/dashboard',{
+            templateUrl: 'pages/dashboard.html',
+            controller: 'DashboardController',
+            controllerAs : 'dashCtrl'
         }).otherwise({
             redirectTo: '/login'
         });

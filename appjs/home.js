@@ -51,6 +51,11 @@ angular.module('PictochatUI').controller('HomeController', ['$http', '$log', '$s
             $location.url('/chat/' + cid);
         };
 
+
+        this.loadDashboard = function () {
+            $location.url('/dashboard');
+        };
+
         this.addGroup = function () {
             $location.url('/createChat');
         };

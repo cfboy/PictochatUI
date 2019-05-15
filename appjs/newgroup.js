@@ -25,6 +25,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                     console.log("data: " + JSON.stringify(response.data));
                     // assing the part details to the variable in the controller
                     thisCtrl.userContacts = response.data.UserContacts;
+
                 }, //Error function
                 function (response) {
                     // This is the error function
@@ -122,6 +123,7 @@ angular.module('PictochatUI').controller('NewGroupController', ['$http', '$log',
                     console.log("data: " + JSON.stringify(response.data));
                     //TODO Validate data
                     $location.path('/home');
+                    M.toast({html: 'Group Chat Created!'})
 
                 }, //Error function
                 function (response) {

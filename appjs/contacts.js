@@ -109,6 +109,7 @@ app.controller('ContactsController', ['$http', '$log', '$scope', '$timeout', '$l
                     thisCtrl.usersSelected = [];
                     thisCtrl.contacts = response.data.UserContacts;
                     thisCtrl.loadSystemUsers();
+                    M.toast({html: 'Contacts added!'})
 
                 }, //Error function
                 function (response) {

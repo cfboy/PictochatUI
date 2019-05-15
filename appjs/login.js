@@ -29,6 +29,8 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                     mem.setItem('username', response.data.User['username']);
                     mem.setItem('user_id', response.data.User['user_id']);
                     $location.path('/home');
+                    M.toast({html: 'Welcome,' + mem.getItem("username")})
+
 
                     // tira un mensaje en un alert
                 }, //Error function
@@ -71,7 +73,9 @@ angular.module('PictochatUI').controller('LoginController', ['$http', '$log', '$
                     var user = response.data.User;
                     mem.setItem('username', response.data.User['username']);
                     mem.setItem('user_id', response.data.User['user_id']);
-                    $location.path('/home')
+                    $location.path('/home');
+                    M.toast({html: 'Welcome,' + mem.getItem("username")})
+
                 },
                 function (response) {
                     // This is the error function

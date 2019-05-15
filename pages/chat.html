@@ -14,8 +14,12 @@
     <div class="row justify-content-center h-100">
         <div class="col-md-4 col-xl-3 chat">
             <div class="card color-card mb-sm-3 mb-md-0 contacts_card">
-                <div class="card-header">
-                    <h3>Chat Members</h3>
+                <div class="card-header" style="display: flex">
+                    <h3 style="margin: auto">Chat Members</h3>
+                    <a data-toggle="modal" data-target="#myModal" style="cursor: pointer"
+                       ng-click="chatCtrl.showModal()"><i
+                            class="fa fa-2x fa-plus"></i></a>
+
                 </div>
                 <div class="card-body contacts_body">
                     <ui class="contacts" ng-repeat="user in chatCtrl.usersInChat">
@@ -51,12 +55,15 @@
                             <p></p>
                         </div>
                     </div>
-                    <span id="action_menu_btn"><i class="fa fa-ellipsis-v"></i></span>
+                    <span id="action_menu_btn" onclick="openMenu()"><i class="fa fa-ellipsis-v"></i></span>
                     <div class="action_menu">
                         <ul>
                             <!--<li><i class="fa fa-user-circle"></i> View profile</li>-->
                             <li id="chatMembersView"><i class="fa fa-users"></i> Chat Members</li>
-                            <li><i class="fa fa-plus"></i> Add to group</li>
+                            <li>
+                                <!--<a href="myModal"> <i class="fa fa-plus"></i> Add to group-->
+                                <!--</a>-->
+                            </li>
                             <!--<li><i class="fa fa-ban"></i> Block</li>-->
                         </ul>
                     </div>
@@ -178,12 +185,44 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#action_menu_btn').click(function () {
-            $('.action_menu').toggle();
-        });
+<!-- The Modal -->
+<div class="modal fade openModal" id="myModal" ng-controller="ChatController">
+    <div class="modal-dialog proceeds-modal">
+        <div class="modal-content">
 
-        // $("p.postMsg:contains('#')").css("text-decoration", "underline");
-    });
-</script>
+            <!-- Modal Header -->
+            <div class="modal-header ">
+                <h4 class="modal-title">Add Users to this Chat</h4>
+                <!-- <button type="button" class="close" (click)="hideModal()">&times;</button> -->
+            </div>
+            <form name="myFormContacts">
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <label for="username">Contacts </label>
+                    <ui-select multiple sortable="true" ng-required="required"
+                               ng-model="chatCtrl.usersSelected"
+                               theme="select2" class="form-control" title="Choose a person">
+                        <ui-select-match placeholder="Select or search a person in the list...">
+                            {{$item.first_name}} {{$item.last_name}} - {{$item.username}}
+                        </ui-select-match>
+                        <ui-select-choices repeat="item in chatCtrl.userContactsToAdd | filter: $select.search">
+                            <div ng-bind-html="item.first_name | highlight: $select.search"></div>
+                            <small ng-bind-html="item.username | highlight: $select.search"></small>
+                        </ui-select-choices>
+                    </ui-select>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                            ng-click="chatCtrl.addParticipants(chatCtrl.chatDetails.chat_id)" ng-disabled="!myFormContacts.$valid">Add
+                    </button>
+                    <!--<button type="button" class="btn btn-danger" onclick="hideModal()">Cancel</button>-->
+
+                    <!-- this button is hidden, used to close from typescript -->
+                    <button type="button" class="btn btn-danger" id="close-modal" data-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

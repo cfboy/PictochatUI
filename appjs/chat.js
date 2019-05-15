@@ -5,7 +5,7 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
     function ($http, $log, $scope, $location, $rootScope, Upload, $route, $routeParams, $timeout) {
         var mem = sessionStorage;
         var thisCtrl = this;
-
+        // this.chatDetails;
         //List of Posts in Chat
         this.postList = [];
         //List of Users in Chat
@@ -17,6 +17,9 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         //TODO: Implement Session
         this.user = mem.getItem('user_id');
 
+        this.usersSelected = [];
+
+        this.userContactsToAdd = [];
 
         //This function load all information of Chat.
         this.loadChat = function () {
@@ -182,6 +185,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("Post " + response.data.React.post_id + " Liked");
                     post.dislikes = response.data.React.totalDislikes;
                     post.likes = response.data.React.totalLikes;
+                    M.toast({html: 'Post Liked!'})
+
                 }, //Error function
                 function (response) {
 
@@ -229,6 +234,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("Post " + response.data.React.post_id + " Disliked");
                     post.dislikes = response.data.React.totalDislikes;
                     post.likes = response.data.React.totalLikes;
+                    M.toast({html: 'Post Disliked!'})
+
                 }, //Error function
                 function (response) {
 
@@ -349,6 +356,8 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
                     console.log("Reply to post " + response.data.Reply.post_id + " Added");
                     m.replies.push(response.data.Reply);
                     $("#" + inputId).val('');
+                    M.toast({html: 'Post Replied!'})
+
                 }, //Error function
                 function (response) {
 
@@ -372,4 +381,99 @@ angular.module('PictochatUI').controller('ChatController', ['$http', '$log', '$s
         this.showChats = function () {
             $location.path('/home');
         };
+
+        this.loadUsersToAdd = function () {
+            // Now create the url with the route to talk with the rest API
+            var reqURL = "http://localhost:5000/Pictochat/user/" + this.user + "/contacts";
+            console.log("reqURL: " + reqURL);
+            // Now issue the http request to the rest API
+            $http.get(reqURL).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    // assing the part details to the variable in the controller
+                    thisCtrl.userContactsToAdd = response.data.UserContacts;
+                    M.toast({html: 'Contacts To Add Loaded!'})
+
+                }, //Error function
+                function (response) {
+                    // This is the error function
+                    // If we get here, some error occurred.
+                    // Verify which was the cause and show an alert.
+                    var status = response.status;
+                    //console.log("Error: " + reqURL);
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No tiene usuarios en su lista de contactos.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+
+        this.showModal = (function () {
+            thisCtrl.loadUsersToAdd();
+            // $("#myModal").modal('show');
+        });
+        this.closeModal = (function () {
+        });
+
+        this.addParticipants = function (chatId) {
+            // alert("Add Participants");
+            var data = {};
+            data.chat_id = chatId;
+            // alert("Participants:" + this.usersSelected);
+
+            data.participants = [];
+            for (var i = 0; i < this.usersSelected.length; i++) {
+                data.participants.unshift(this.usersSelected[i]['user_id']);
+            }
+
+            var reqURL = "http://localhost:5000/Pictochat/chat/addparticipants";
+            console.log("reqURL: " + reqURL);
+            $('#close-modal').click();
+
+            // configuration headers for HTTP request
+            var config = {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8;'
+                }
+            };
+
+            $http.post(reqURL, data, config).then(
+                // Success function
+                function (response) {
+                    console.log("data: " + JSON.stringify(response.data));
+                    //TODO Validate data
+                    $route.reload();
+
+                    M.toast({html: 'New user added to this Chat!'})
+
+                }, //Error function
+                function (response) {
+
+                    var status = response.status;
+
+                    if (status === 0) {
+                        alert("No hay conexion a Internet");
+                    } else if (status === 401) {
+                        alert("Su sesion expiro. Conectese de nuevo.");
+                    } else if (status === 403) {
+                        alert("No esta autorizado a usar el sistema.");
+                    } else if (status === 404) {
+                        alert("No se encontro la informacion solicitada.");
+                    } else {
+                        alert("Error interno del sistema.");
+                    }
+                }
+            );
+        };
+
     }]);
